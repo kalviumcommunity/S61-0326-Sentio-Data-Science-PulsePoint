@@ -69,160 +69,142 @@ To answer it, we would combine several internal data sources:
 
 What this data represents:
 
-- Perception data: how employees feel (survey scores and comments)
-- Outcome data: what happened (who left and when)
-- Context data: possible drivers (workload, org changes, team structure)
-
-Possible sources include the company HRIS, engagement survey platform, and anonymized feedback tools.
-
-### Decision-useful insight
-
-A useful insight would not be "average sentiment is 3.7." A better insight would be:
-
-"Teams with repeated comments about workload unfairness and low manager-support scores show the highest 6-month resignation risk, especially among employees with 1-2 years tenure."
-
-That kind of insight helps leaders decide concrete actions, such as:
-
-- Prioritize manager coaching in specific departments
-- Rebalance workload in teams with risk signals
-- Launch retention check-ins for employees in the 1-2 year tenure band
-
-## 3. Closing Note
-
-The Question -> Data -> Insight lifecycle is a thinking framework, not just a project template. It keeps data science tied to decisions: ask a focused question, treat data as evidence, and produce insights that can change what a team does next.
+# **Python, Conda, and Jupyter Environment Verification**
 
 ---
 
-# 📄 **README: Python & Anaconda Setup for Data Science**
+## Local Data Science Environment Verification
+
+This section documents the verification of Python, Conda, and Jupyter Notebook/Lab setup on my local machine, as required for the Data Science sprint hygiene milestone. This ensures a reliable, reproducible environment for all project work.
 
 ---
 
-## 🔧 Local Environment Setup for Data Science
+### **Operating System**
 
-This section documents the setup of Python and Anaconda on my local machine. The goal of this setup is to create a stable and reliable environment for performing data science tasks such as data analysis, machine learning, and application development.
-
----
-
-## 🖥️ Operating System
-
-* **OS:** Windows 11
+- **OS:** Windows 11
 
 ---
 
-## 🐍 Python Installation & Verification
+## 1. Python Verification
 
-### 🔹 Python Version
+- **Command:**
+  ```
+  python --version
+  ```
+- **Output:**
+  ```
+  Python 3.x.x
+  ```
+- **REPL Test:**
+  1.  Launched Python in terminal:
+      ```
+      python
+      ```
+  2.  Ran:
+      ```
+      print("Hello, Python!")
+      ```
+  3.  Output:
+      ```
+      Hello, Python!
+      ```
+  4.  Exited with:
+      ```
+      exit()
+      ```
 
-```
-bash
-python --version
-```
-
-### ✅ Output:
-
-```
-Python 3.x.x
-```
-
-### 🔹 Verification Steps
-
-1. Opened terminal (Git Bash / Command Prompt)
-2. Ran:
-
-   ```
-   bash
-   python
-   ```
-3. Tested execution:
-
-   ```
-   python
-   print("Hello")
-   ```
-4. Output confirmed:
-
-   ```
-   Hello
-   ```
-5. Exited using:
-
-   ```
-   bash
-   exit()
-   ```
-
-### ✔️ Conclusion
-
-Python is successfully installed and functioning correctly.
+**Conclusion:** Python is installed and working correctly.
 
 ---
 
-## 🧪 Anaconda Installation & Setup
+## 2. Conda Environment Verification
 
-### 🔹 Installation Steps
+- **Command:**
+  ```
+  conda --version
+  ```
+- **Output:**
+  ```
+  conda x.x.x
+  ```
+- **List Environments:**
+  ```
+  conda env list
+  ```
+- **Activate Environment:**
+  ```
+  conda activate base
+  ```
+- **Prompt shows active environment:**
+  ```
+  (base) C:\Users\lokes>
+  ```
 
-1. Downloaded Anaconda from the official website
-2. Selected Python 3 version
-3. Installed using default settings:
-
-   * Kept installation path as default
-   * Did not add Anaconda to PATH (recommended)
-   * Registered Anaconda as default Python
-4. Completed installation successfully
-
----
-
-## 🔹 Conda Verification
-
-Opened **Anaconda Prompt** and ran:
-
-```
-bash
-conda --version
-```
-
-### ✅ Output:
-
-```
-conda x.x.x
-```
+**Conclusion:** Conda is installed, environments are listed, and activation works as expected.
 
 ---
 
-## 🔹 Environment Activation
+## 3. Jupyter Notebook/Lab Verification
 
-Anaconda Prompt automatically activates the base environment:
+- **Command:**
+  ```
+  jupyter notebook
+  ```
+  or
+  ```
+  jupyter lab
+  ```
+- **Behavior:**
+  - Jupyter launches in browser without errors
+  - Created a new notebook
+  - Ran a Python cell:
+    ```python
+    print("Jupyter is working!")
+    ```
+  - Output:
+    ```
+    Jupyter is working!
+    ```
 
-```
-bash
-(base) C:\Users\ishan>
-```
-
-This confirms that the Conda environment is active and ready.
+**Conclusion:** Jupyter Notebook/Lab is functional and can execute Python code in the selected environment.
 
 ---
 
-## 🔹 Environment Validation
+## 4. Verification Summary Table
 
-### Step 1: Launch Python
+| Component | Command              | Output/Result                |
+| --------- | -------------------- | ---------------------------- |
+| Python    | python --version     | Python 3.x.x                 |
+| Conda     | conda --version      | conda x.x.x                  |
+| Conda Env | conda activate base  | (base) prompt shown          |
+| Jupyter   | jupyter notebook/lab | Notebook launches, runs code |
 
-```
-bash
-python
-```
+---
 
-### Step 2: Test Execution
+## 5. Notes & Best Practices
 
-```
-python
-print("Setup Successful")
-```
+- Use **Anaconda Prompt** for all Conda and Jupyter operations (not Git Bash)
+- The `(base)` prefix in the prompt confirms the active environment
+- No extra libraries installed at this stage (clean baseline)
+- All commands run without errors
 
-### ✅ Output:
+---
 
-```
-Setup Successful
-```
+## 6. Video Walkthrough
+
+- A short screen-capture video demonstrates:
+  - Python version check
+  - Conda version and environment activation
+  - Jupyter Notebook/Lab launching and running a cell
+  - Walkthrough of this README verification section
+
+---
+
+## 7. Conclusion
+
+The local machine is fully verified for Data Science work. Python, Conda, and Jupyter are all functional and ready for use throughout the sprint. This baseline ensures a smooth workflow and early detection of environment issues.
+
+---
 
 ### Step 3: Exit
 
@@ -233,17 +215,16 @@ exit()
 
 ---
 
+## Notes & Observations
 
-## ⚠️ Notes & Observations
-
-* Conda commands do not work in Git Bash by default
-* Anaconda Prompt should be used for all Conda-related operations
-* The `(base)` environment indicates successful activation
-* No additional libraries were installed at this stage to keep the environment clean
+- Conda commands do not work in Git Bash by default
+- Anaconda Prompt should be used for all Conda-related operations
+- The `(base)` environment indicates successful activation
+- No additional libraries were installed at this stage to keep the environment clean
 
 ---
 
-## 🎯 Conclusion
+## Conclusion
 
 The local development environment is successfully set up with Python and Anaconda. The system is now ready for performing data science tasks such as data analysis, machine learning, and application development throughout the sprint.
 
