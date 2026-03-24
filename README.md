@@ -229,3 +229,173 @@ exit()
 The local development environment is successfully set up with Python and Anaconda. The system is now ready for performing data science tasks such as data analysis, machine learning, and application development throughout the sprint.
 
 ---
+
+# 📄 **README: Jupyter Notebook Setup & Interface Understanding**
+
+---
+
+## 📓 Launching Jupyter Notebook & Understanding the Home Interface
+
+This section documents the process of launching Jupyter Notebook, understanding its interface, navigating directories, and verifying basic notebook functionality within the project environment.
+
+---
+
+## 🚀 Launching Jupyter Notebook
+
+Jupyter Notebook was launched using the terminal from the project directory to ensure correct file organization.
+
+### 🔹 Steps:
+
+1. Opened **Anaconda Prompt**
+2. Navigated to the project folder:
+
+```bash
+cd S61-0326-Sentio-Data-Science-PulsePoint
+```
+
+3. Launched Jupyter Notebook:
+
+```bash
+jupyter notebook
+```
+
+### ✅ Result:
+
+* Jupyter Notebook opened successfully in the browser
+* The interface displayed only project-related files
+* Confirmed correct working directory
+
+---
+
+## 🧭 Understanding the Jupyter Home Interface
+
+The Jupyter Home interface provides a file-based view of the current working directory.
+
+### 🔹 Key Components Identified:
+
+* **File/Folder Listing:**
+  Displays all files and folders within the current directory
+
+* **Navigation Path:**
+  Shows the current folder location
+
+* **New Button:**
+  Used to create new notebooks or files
+
+* **File Type Indicators:**
+
+  * Folder icons → Directories
+  * `.ipynb` → Notebooks
+  * `.md` → Markdown files
+
+### ✅ Observation:
+
+The interface correctly reflected the project structure, ensuring proper workspace alignment.
+
+---
+
+## 📁 Navigating Project Folders
+
+Navigation was performed within the Jupyter interface to understand directory structure.
+
+### 🔹 Actions:
+
+* Opened project folders (e.g., `employee-survey-analysis`)
+* Navigated back to the parent directory
+* Verified folder structure matches local system
+
+### ✅ Outcome:
+
+Confirmed that navigation in Jupyter aligns with the actual project directory structure.
+
+---
+
+## 🆕 Creating and Opening a Notebook
+
+A new notebook was created inside the project directory.
+
+### 🔹 Steps:
+
+1. Clicked:
+
+   ```
+   New → Python 3 (ipykernel)
+   ```
+2. A new notebook was created
+3. Renamed the notebook to:
+
+```
+test_notebook.ipynb
+```
+
+### ✅ Kernel Selection:
+
+* Selected:
+
+  ```
+  Python [conda env:base]
+  ```
+* Confirmed the notebook is connected to the correct Python environment
+
+---
+
+## ▶️ Running a Test Cell
+
+To verify notebook functionality, a simple Python command was executed.
+
+```python
+print("Jupyter is working")
+```
+
+### ✅ Output:
+
+```
+Jupyter is working
+```
+
+### ✔️ Conclusion:
+
+Notebook execution is functioning correctly.
+
+---
+
+## 💾 Notebook File Management
+
+Basic file management operations were performed to ensure proper handling of notebook files.
+
+### 🔹 Actions:
+
+* Saved notebook:
+
+  ```
+  File → Save Notebook
+  ```
+* Closed notebook:
+
+  ```
+  File → Close and Shut Down Notebook
+  ```
+* Reopened notebook from Home interface
+
+### ✅ Outcome:
+
+* Notebook saved successfully
+* Reopened without errors
+* All changes persisted
+
+---
+
+## ⚠️ Important Observations
+
+* Jupyter must be launched from the project directory to avoid file misplacement
+* The selected kernel determines code execution environment
+* Proper navigation ensures notebooks are stored in the correct location
+* File management prevents accidental data loss
+
+---
+
+## 🎯 Conclusion
+
+Jupyter Notebook was successfully launched and configured within the project environment. The interface, navigation, notebook creation, execution, and file management were all verified. This ensures a stable and organized workspace for future data science tasks in the PulsePoint project.
+
+---
