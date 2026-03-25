@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import Login from './Login';
-import Signup from './Signup';
-import './Login.css';
+import { LoginPage, SignupPage } from '../features/auth';
 
 function App() {
   const [page, setPage] = useState('login');
@@ -9,9 +7,9 @@ function App() {
   return (
     <>
       {page === 'login' ? (
-        <Login onSwitch={setPage} />
+        <LoginPage onSwitch={setPage} />
       ) : (
-        <Signup onSwitch={setPage} />
+        <SignupPage onSwitch={setPage} />
       )}
     </>
   );
