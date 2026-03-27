@@ -1,5 +1,8 @@
 from datetime import datetime, timedelta, timezone
+from secrets import token_urlsafe
 
+from google.auth.transport import requests as google_requests
+from google.oauth2 import id_token as google_id_token
 from jose import jwt
 from passlib.context import CryptContext
 
@@ -17,6 +20,21 @@ def hash_password(password: str) -> str:
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     return pwd_context.verify(plain_password, hashed_password)
+
+
+def generate_random_password_hash() -> str:
+    return hash_password(token_urlsafe(32))
+
+
+def verify_google_credential(credential: str):
+    if not settings.google_client_id:
+        raise ValueError("Google authentication is not configured on the server.")
+
+    return google_id_token.verify_oauth2_token(
+        credential,
+        google_requests.Request(),
+        settings.google_client_id,
+    )
 
 
 def create_access_token(subject: str) -> str:

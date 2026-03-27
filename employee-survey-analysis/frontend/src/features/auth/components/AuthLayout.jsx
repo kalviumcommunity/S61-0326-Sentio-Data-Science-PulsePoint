@@ -149,6 +149,7 @@ function FeatureIcon({ name }) {
 export default function AuthLayout({
   heading,
   description,
+  googleSection,
   submitLabel,
   onSubmit,
   switchPrompt,
@@ -208,10 +209,12 @@ export default function AuthLayout({
             <span>OR CONTINUE WITH</span>
           </div>
 
-          <button type="button" className={styles.googleButton}>
-            <GoogleIcon />
-            Continue with Google
-          </button>
+          {googleSection || (
+            <button type="button" className={styles.googleButton}>
+              <GoogleIcon />
+              Continue with Google
+            </button>
+          )}
 
           <p className={styles.switchText}>
             {switchPrompt}

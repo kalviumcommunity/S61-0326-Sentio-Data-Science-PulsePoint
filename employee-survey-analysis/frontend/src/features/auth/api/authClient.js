@@ -26,3 +26,7 @@ export function signupUser(payload) {
 export function loginUser(payload) {
   return sendAuthRequest("/auth/login", payload);
 }
+
+export function googleAuthUser(payload) {
+  return sendAuthRequest("/auth/google", payload);
+}

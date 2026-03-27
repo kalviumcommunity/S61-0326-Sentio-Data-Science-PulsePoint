@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     api_v1_prefix: str = "/api"
     database_url: str = "postgresql+psycopg://postgres:postgres@localhost:5432/pulsepoint"
     frontend_origin: str = "http://localhost:5173"
+    google_client_id: str = ""
     jwt_secret_key: str = "change-me-before-production"
     jwt_algorithm: str = "HS256"
     access_token_expire_minutes: int = 60

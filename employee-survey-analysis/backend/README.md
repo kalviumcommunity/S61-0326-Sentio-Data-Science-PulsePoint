@@ -8,13 +8,24 @@ This backend provides authentication endpoints for the PulsePoint frontend and s
 - SQLAlchemy
 - PostgreSQL
 - JWT access tokens
-- Password hashing with bcrypt
+- Password hashing with Passlib
+- Google Identity Services + verified Google ID tokens
 
 ## Endpoints
 
 - `POST /api/auth/signup`
 - `POST /api/auth/login`
+- `POST /api/auth/google`
 - `GET /health`
+
+## Google Sign-In Setup
+
+1. Create a Google OAuth 2.0 Web Client in Google Cloud.
+2. Add `http://localhost:5173` as an Authorized JavaScript origin.
+3. Copy the same client ID into:
+   - `backend/.env` as `GOOGLE_CLIENT_ID`
+   - `frontend/.env` as `VITE_GOOGLE_CLIENT_ID`
+4. Restart both servers after updating the env files.
 
 ## Local Setup
 
