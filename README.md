@@ -230,17 +230,17 @@ The local development environment is successfully set up with Python and Anacond
 
 ---
 
-# 📄 **README: Jupyter Notebook Setup & Interface Understanding**
+#  **README: Jupyter Notebook Setup & Interface Understanding**
 
 ---
 
-## 📓 Launching Jupyter Notebook & Understanding the Home Interface
+##  Launching Jupyter Notebook & Understanding the Home Interface
 
 This section documents the process of launching Jupyter Notebook, understanding its interface, navigating directories, and verifying basic notebook functionality within the project environment.
 
 ---
 
-## 🚀 Launching Jupyter Notebook
+##  Launching Jupyter Notebook
 
 Jupyter Notebook was launched using the terminal from the project directory to ensure correct file organization.
 
@@ -259,7 +259,7 @@ cd S61-0326-Sentio-Data-Science-PulsePoint
 jupyter notebook
 ```
 
-### ✅ Result:
+###  Result:
 
 * Jupyter Notebook opened successfully in the browser
 * The interface displayed only project-related files
@@ -267,7 +267,7 @@ jupyter notebook
 
 ---
 
-## 🧭 Understanding the Jupyter Home Interface
+##  Understanding the Jupyter Home Interface
 
 The Jupyter Home interface provides a file-based view of the current working directory.
 
@@ -288,13 +288,13 @@ The Jupyter Home interface provides a file-based view of the current working dir
   * `.ipynb` → Notebooks
   * `.md` → Markdown files
 
-### ✅ Observation:
+###  Observation:
 
 The interface correctly reflected the project structure, ensuring proper workspace alignment.
 
 ---
 
-## 📁 Navigating Project Folders
+##  Navigating Project Folders
 
 Navigation was performed within the Jupyter interface to understand directory structure.
 
@@ -304,13 +304,13 @@ Navigation was performed within the Jupyter interface to understand directory st
 * Navigated back to the parent directory
 * Verified folder structure matches local system
 
-### ✅ Outcome:
+###  Outcome:
 
 Confirmed that navigation in Jupyter aligns with the actual project directory structure.
 
 ---
 
-## 🆕 Creating and Opening a Notebook
+##  Creating and Opening a Notebook
 
 A new notebook was created inside the project directory.
 
@@ -328,7 +328,7 @@ A new notebook was created inside the project directory.
 test_notebook.ipynb
 ```
 
-### ✅ Kernel Selection:
+###  Kernel Selection:
 
 * Selected:
 
@@ -339,7 +339,7 @@ test_notebook.ipynb
 
 ---
 
-## ▶️ Running a Test Cell
+##  Running a Test Cell
 
 To verify notebook functionality, a simple Python command was executed.
 
@@ -347,19 +347,19 @@ To verify notebook functionality, a simple Python command was executed.
 print("Jupyter is working")
 ```
 
-### ✅ Output:
+###  Output:
 
 ```
 Jupyter is working
 ```
 
-### ✔️ Conclusion:
+###  Conclusion:
 
 Notebook execution is functioning correctly.
 
 ---
 
-## 💾 Notebook File Management
+##  Notebook File Management
 
 Basic file management operations were performed to ensure proper handling of notebook files.
 
@@ -377,7 +377,7 @@ Basic file management operations were performed to ensure proper handling of not
   ```
 * Reopened notebook from Home interface
 
-### ✅ Outcome:
+###  Outcome:
 
 * Notebook saved successfully
 * Reopened without errors
@@ -385,7 +385,7 @@ Basic file management operations were performed to ensure proper handling of not
 
 ---
 
-## ⚠️ Important Observations
+##  Important Observations
 
 * Jupyter must be launched from the project directory to avoid file misplacement
 * The selected kernel determines code execution environment
@@ -394,7 +394,7 @@ Basic file management operations were performed to ensure proper handling of not
 
 ---
 
-## 🎯 Conclusion
+##  Conclusion
 
 Jupyter Notebook was successfully launched and configured within the project environment. The interface, navigation, notebook creation, execution, and file management were all verified. This ensures a stable and organized workspace for future data science tasks in the PulsePoint project.
 
