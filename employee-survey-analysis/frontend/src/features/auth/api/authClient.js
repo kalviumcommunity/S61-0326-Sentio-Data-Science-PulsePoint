@@ -1,13 +1,14 @@
 const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api";
 
-async function sendAuthRequest(endpoint, payload) {
+async function sendRequest(endpoint, { method = "GET", payload, token } = {}) {
   const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-    method: "POST",
+    method,
     headers: {
       "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
-    body: JSON.stringify(payload),
+    ...(payload ? { body: JSON.stringify(payload) } : {}),
   });
 
   const data = await response.json().catch(() => null);
@@ -20,13 +21,17 @@ async function sendAuthRequest(endpoint, payload) {
 }
 
 export function signupUser(payload) {
-  return sendAuthRequest("/auth/signup", payload);
+  return sendRequest("/auth/signup", { method: "POST", payload });
 }
 
 export function loginUser(payload) {
-  return sendAuthRequest("/auth/login", payload);
+  return sendRequest("/auth/login", { method: "POST", payload });
 }
 
 export function googleAuthUser(payload) {
-  return sendAuthRequest("/auth/google", payload);
+  return sendRequest("/auth/google", { method: "POST", payload });
+}
+
+export function fetchDashboardOverview(token) {
+  return sendRequest("/dashboard/overview", { token });
 }
