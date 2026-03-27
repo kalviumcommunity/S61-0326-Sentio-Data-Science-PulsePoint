@@ -4,6 +4,10 @@
 # Frontend build artifacts
 frontend/node_modules/
 frontend/dist/
+backend/.env
+backend/.venv/
+backend/__pycache__/
+backend/**/*.pyc
 
 # Generated project outputs
 outputs/figures/*

@@ -1,0 +1,113 @@
+.pageShell {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.25rem;
+  background:
+    radial-gradient(circle at top left, rgba(78, 110, 232, 0.18), transparent 32rem),
+    linear-gradient(180deg, #eef3ff 0%, #f9fbff 48%, #ffffff 100%);
+}
+
+.sessionCard {
+  width: min(100%, 42rem);
+  padding: 2.5rem;
+  border: 1px solid #d8e3f8;
+  border-radius: 1.5rem;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 28px 70px rgba(44, 70, 128, 0.12);
+}
+
+.brandBadge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.2rem;
+  padding: 0 0.9rem;
+  border-radius: 999px;
+  background: #e7eeff;
+  color: #3052bf;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
+.eyebrow {
+  margin: 1.2rem 0 0;
+  color: #54709d;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.title {
+  margin: 0.8rem 0 0;
+  color: #0d2147;
+  font-size: clamp(2.1rem, 5vw, 3.2rem);
+  line-height: 1.05;
+  letter-spacing: -0.05em;
+}
+
+.description {
+  margin: 1rem 0 0;
+  color: #577095;
+  font-size: 1.03rem;
+  line-height: 1.65;
+}
+
+.detailGrid {
+  margin: 2rem 0 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.detailCard {
+  margin: 0;
+  padding: 1rem;
+  border-radius: 1rem;
+  background: #f4f7fd;
+}
+
+.detailCard dt {
+  color: #6780a8;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.detailCard dd {
+  margin: 0.6rem 0 0;
+  color: #102346;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.45;
+  word-break: break-word;
+}
+
+.logoutButton {
+  min-height: 3.5rem;
+  margin-top: 2rem;
+  padding: 0 1.25rem;
+  border: none;
+  border-radius: 0.95rem;
+  background: #4b6fe7;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.logoutButton:hover {
+  background: #3d61df;
+}
+
+@media (max-width: 720px) {
+  .sessionCard {
+    padding: 1.5rem;
+  }
+
+  .detailGrid {
+    grid-template-columns: 1fr;
+  }
+}

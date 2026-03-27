@@ -145,6 +145,13 @@
   gap: 1.4rem;
 }
 
+.supportText {
+  margin: -0.2rem 0 0;
+  color: #6f85ab;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
 .fieldGroup {
   display: flex;
   flex-direction: column;
@@ -271,6 +278,26 @@
 
 .linkButton:hover {
   text-decoration: underline;
+}
+
+.statusMessage,
+.errorMessage {
+  padding: 0.95rem 1rem;
+  border-radius: 0.85rem;
+  font-size: 0.96rem;
+  line-height: 1.45;
+}
+
+.statusMessage {
+  border: 1px solid #cfe0ff;
+  background: #eef4ff;
+  color: #2c58ba;
+}
+
+.errorMessage {
+  border: 1px solid #f3c8cd;
+  background: #fff1f3;
+  color: #b63b52;
 }
 
 @media (max-width: 1120px) {
