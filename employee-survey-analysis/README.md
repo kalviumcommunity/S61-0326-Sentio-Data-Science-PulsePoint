@@ -19,7 +19,9 @@ employee-survey-analysis/
 |   `-- reports/
 |-- references/
 |   `-- README.md
-`-- frontend/
+|-- backend/
+|-- frontend/
+`-- docker-compose.yml
 ```
 
 ## Folder Purpose
@@ -33,6 +35,7 @@ employee-survey-analysis/
 - `outputs/reports/`: Final summaries, presentations, or exported result files.
 - `references/`: Notes, milestone instructions, and supporting material.
 - `frontend/`: Existing app work kept separate from the core data science workflow.
+- `backend/`: FastAPI service for authentication and PostgreSQL-backed data access.
 
 ## Organization Principles
 
@@ -49,6 +52,7 @@ employee-survey-analysis/
 3. Explore and analyze data in `notebooks/`.
 4. Move reusable logic into `scripts/`.
 5. Save charts and final deliverables to `outputs/`.
+6. Run the frontend and backend separately so the app layer stays modular.
 
 ## Video Walkthrough Notes
 
@@ -65,3 +69,4 @@ Use this sequence for the 2-minute screen recording:
 
 - No dataset or completed analysis is required for this milestone.
 - The current structure is intentionally simple so it can grow with the project.
+- The app layer now includes a React frontend and a FastAPI backend backed by PostgreSQL.
