@@ -1,17 +1,23 @@
 from datetime import datetime, timedelta, timezone
 from secrets import token_urlsafe
 
+from fastapi import Depends, HTTPException, status
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from google.auth.transport import requests as google_requests
 from google.oauth2 import id_token as google_id_token
-from jose import jwt
+from jose import JWTError, jwt
 from passlib.context import CryptContext
+from sqlalchemy.orm import Session
 
 from app.config import get_settings
+from app.database import get_db
+from app.models import User
 
 
 # Use pbkdf2_sha256 to avoid bcrypt backend incompatibilities on newer Python stacks.
 pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
 settings = get_settings()
+bearer_scheme = HTTPBearer()
 
 
 def hash_password(password: str) -> str:
@@ -43,3 +49,33 @@ def create_access_token(subject: str) -> str:
     )
     payload = {"sub": subject, "exp": expires_at}
     return jwt.encode(payload, settings.jwt_secret_key, algorithm=settings.jwt_algorithm)
+
+
+def get_current_user(
+    credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme),
+    db: Session = Depends(get_db),
+) -> User:
+    token = credentials.credentials
+
+    try:
+        payload = jwt.decode(
+            token,
+            settings.jwt_secret_key,
+            algorithms=[settings.jwt_algorithm],
+        )
+        subject = payload.get("sub")
+        user_id = int(subject) if subject is not None else None
+    except (JWTError, ValueError) as exc:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid or expired authentication token.",
+        ) from exc
+
+    user = db.get(User, user_id)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="User not found for the provided token.",
+        )
+
+    return user

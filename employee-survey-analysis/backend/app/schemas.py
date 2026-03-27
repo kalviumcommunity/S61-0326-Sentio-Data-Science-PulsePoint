@@ -32,3 +32,53 @@ class AuthResponse(BaseModel):
     token_type: str = "bearer"
     message: str
     user: UserResponse
+
+
+class DashboardMetricResponse(BaseModel):
+    title: str
+    value: str
+    detail: str
+    trend: str
+    tone: str
+    icon: str
+
+
+class SentimentSegmentResponse(BaseModel):
+    label: str
+    value: int
+    color: str
+
+
+class TrendPointResponse(BaseModel):
+    label: str
+    value: float
+
+
+class FocusAreaResponse(BaseModel):
+    team: str
+    note: str
+    tone: str
+
+
+class FeedbackThemeResponse(BaseModel):
+    title: str
+    description: str
+    trend: str
+
+
+class VolumePointResponse(BaseModel):
+    label: str
+    value: int
+
+
+class DashboardOverviewResponse(BaseModel):
+    title: str
+    subtitle: str
+    alert_title: str
+    alert_text: str
+    metrics: list[DashboardMetricResponse]
+    sentiment_segments: list[SentimentSegmentResponse]
+    trend_points: list[TrendPointResponse]
+    focus_areas: list[FocusAreaResponse]
+    feedback_themes: list[FeedbackThemeResponse]
+    volume_points: list[VolumePointResponse]

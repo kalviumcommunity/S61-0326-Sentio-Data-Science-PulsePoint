@@ -1,113 +1,825 @@
-.pageShell {
+.dashboardShell {
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem 1.25rem;
+  display: grid;
+  grid-template-columns: 18.75rem minmax(0, 1fr);
   background:
-    radial-gradient(circle at top left, rgba(78, 110, 232, 0.18), transparent 32rem),
-    linear-gradient(180deg, #eef3ff 0%, #f9fbff 48%, #ffffff 100%);
+    radial-gradient(circle at top left, rgba(58, 94, 201, 0.16), transparent 26rem),
+    linear-gradient(180deg, #eef3fb 0%, #f8fbff 100%);
 }
 
-.sessionCard {
-  width: min(100%, 42rem);
-  padding: 2.5rem;
-  border: 1px solid #d8e3f8;
-  border-radius: 1.5rem;
-  background: rgba(255, 255, 255, 0.96);
-  box-shadow: 0 28px 70px rgba(44, 70, 128, 0.12);
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+  padding: 1.8rem 1.2rem 1.2rem;
+  background: #18202d;
+  color: #edf3ff;
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.sidebarHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.95rem;
+  padding: 0.2rem 0.25rem 1rem;
 }
 
 .brandBadge {
+  width: 3rem;
+  height: 3rem;
   display: inline-flex;
   align-items: center;
-  min-height: 2.2rem;
-  padding: 0 0.9rem;
-  border-radius: 999px;
-  background: #e7eeff;
-  color: #3052bf;
-  font-weight: 800;
-  letter-spacing: 0.01em;
-}
-
-.eyebrow {
-  margin: 1.2rem 0 0;
-  color: #54709d;
-  font-size: 0.95rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.title {
-  margin: 0.8rem 0 0;
-  color: #0d2147;
-  font-size: clamp(2.1rem, 5vw, 3.2rem);
-  line-height: 1.05;
-  letter-spacing: -0.05em;
-}
-
-.description {
-  margin: 1rem 0 0;
-  color: #577095;
-  font-size: 1.03rem;
-  line-height: 1.65;
-}
-
-.detailGrid {
-  margin: 2rem 0 0;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
-}
-
-.detailCard {
-  margin: 0;
-  padding: 1rem;
+  justify-content: center;
   border-radius: 1rem;
-  background: #f4f7fd;
-}
-
-.detailCard dt {
-  color: #6780a8;
-  font-size: 0.85rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.detailCard dd {
-  margin: 0.6rem 0 0;
-  color: #102346;
+  background: linear-gradient(135deg, #4a81f1 0%, #2d5cc3 100%);
+  color: #ffffff;
   font-size: 1rem;
+  font-weight: 800;
+}
+
+.brandName {
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.brandSubtitle {
+  margin-top: 0.3rem;
+  color: #8fa4cf;
+  font-size: 0.96rem;
+}
+
+.sidebarSections {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.sidebarSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.sidebarLabel {
+  margin: 0;
+  padding: 0 0.55rem;
+  color: #72829e;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   font-weight: 700;
-  line-height: 1.45;
+}
+
+.sidebarNav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.navItem {
+  min-height: 3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0 0.85rem;
+  border: none;
+  border-radius: 0.95rem;
+  background: transparent;
+  color: #d7e3ff;
+  font-size: 1rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.navItem:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.navItemActive {
+  background: rgba(79, 120, 236, 0.15);
+  color: #81abff;
+}
+
+.navIcon {
+  width: 1.55rem;
+  height: 1.55rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.55rem;
+  background: rgba(255, 255, 255, 0.05);
+  color: inherit;
+  font-size: 0.82rem;
+  font-weight: 800;
+  flex: 0 0 auto;
+}
+
+.profileCard {
+  margin-top: auto;
+  padding: 1rem;
+  border-radius: 1.15rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.profileAvatar {
+  width: 3rem;
+  height: 3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(90, 131, 242, 0.18);
+  color: #f5f8ff;
+  font-weight: 800;
+  font-size: 1rem;
+}
+
+.profileCopy {
+  margin-top: 0.9rem;
+}
+
+.profileName {
+  color: #ffffff;
+  font-size: 1.08rem;
+  font-weight: 700;
+}
+
+.profileRole,
+.profileEmail {
+  margin-top: 0.25rem;
+  color: #8da3cc;
+  font-size: 0.94rem;
+}
+
+.profileEmail {
   word-break: break-word;
 }
 
-.logoutButton {
-  min-height: 3.5rem;
-  margin-top: 2rem;
-  padding: 0 1.25rem;
+.signOutButton {
+  width: 100%;
+  min-height: 2.9rem;
+  margin-top: 1rem;
   border: none;
-  border-radius: 0.95rem;
-  background: #4b6fe7;
+  border-radius: 0.85rem;
+  background: linear-gradient(135deg, #4d7ff1 0%, #315ec8 100%);
   color: #ffffff;
-  font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
 }
 
-.logoutButton:hover {
-  background: #3d61df;
+.dashboardMain {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.35rem 1.8rem;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(146, 164, 202, 0.16);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.topbarButton,
+.notificationButton {
+  width: 2.9rem;
+  height: 2.9rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #d8e2f2;
+  border-radius: 0.95rem;
+  background: #ffffff;
+  color: #647899;
+  cursor: pointer;
+}
+
+.topbarButton svg,
+.notificationButton svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.searchBar {
+  min-width: 0;
+  flex: 1 1 auto;
+  max-width: 26rem;
+  min-height: 3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0 1rem;
+  border-radius: 1rem;
+  background: #ffffff;
+  border: 1px solid #dce5f3;
+  color: #8191ae;
+}
+
+.searchBar svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  flex: 0 0 auto;
+}
+
+.searchBar input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: #486283;
+  outline: none;
+  font-size: 1rem;
+}
+
+.topbarActions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.notificationButton {
+  position: relative;
+}
+
+.notificationDot {
+  position: absolute;
+  top: 0.7rem;
+  right: 0.72rem;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 999px;
+  background: #e35746;
+  box-shadow: 0 0 0 3px #ffffff;
+}
+
+.topbarAvatar {
+  width: 2.85rem;
+  height: 2.85rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #3f78ee 0%, #2958c4 100%);
+  color: #ffffff;
+  font-weight: 800;
+}
+
+.dashboardContent {
+  padding: 2rem 1.8rem 2.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.heroBlock {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.heroEyebrow {
+  margin: 0;
+  color: #607595;
+  font-size: 0.98rem;
+  font-weight: 700;
+}
+
+.heroTitle {
+  margin: 0.4rem 0 0;
+  color: #16233c;
+  font-size: clamp(2rem, 4vw, 2.85rem);
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+}
+
+.heroDescription {
+  margin: 0.85rem 0 0;
+  max-width: 46rem;
+  color: #6e80a0;
+  font-size: 1.02rem;
+  line-height: 1.65;
+}
+
+.alertBanner {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.25rem 1.35rem;
+  border: 1px solid #efc5bb;
+  border-radius: 1.35rem;
+  background: linear-gradient(180deg, #fff5f3 0%, #fff8f7 100%);
+}
+
+.alertIcon {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.95rem;
+  background: rgba(229, 91, 69, 0.1);
+  color: #db5d47;
+  flex: 0 0 auto;
+}
+
+.alertIcon svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.alertTitle {
+  color: #243248;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.alertText {
+  margin: 0.4rem 0 0;
+  color: #6f738a;
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.stateCard {
+  padding: 1.35rem 1.45rem;
+  border-radius: 1.25rem;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid #dbe4f2;
+  box-shadow: 0 16px 30px rgba(74, 96, 145, 0.08);
+}
+
+.stateCard h2 {
+  margin: 0;
+  color: #1f2d43;
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.stateCard p {
+  margin: 0.55rem 0 0;
+  color: #6d809f;
+  line-height: 1.6;
+}
+
+.stateButton {
+  min-height: 2.85rem;
+  margin-top: 1rem;
+  padding: 0 1rem;
+  border: none;
+  border-radius: 0.85rem;
+  background: linear-gradient(135deg, #4d7ff1 0%, #315ec8 100%);
+  color: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.metricCard,
+.panelCard {
+  border-radius: 1.45rem;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid #dbe4f2;
+  box-shadow: 0 16px 30px rgba(74, 96, 145, 0.08);
+}
+
+.metricCard {
+  padding: 1.45rem;
+}
+
+.metricCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.metricIconWrap {
+  width: 3rem;
+  height: 3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  background: #edf3ff;
+  color: #4073df;
+}
+
+.metricIconWrap svg {
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+.metricTrend {
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.metricTrendUp {
+  color: #23a064;
+}
+
+.metricTrendDown,
+.metricTrendAlert {
+  color: #dd5b49;
+}
+
+.metricValue {
+  margin-top: 1.35rem;
+  color: #18253f;
+  font-size: clamp(1.9rem, 3vw, 2.35rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.metricLabel {
+  margin-top: 0.5rem;
+  color: #425574;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.metricDetail {
+  margin-top: 0.35rem;
+  color: #7e8da8;
+  font-size: 0.96rem;
+}
+
+.chartGrid {
+  display: grid;
+  grid-template-columns: 0.95fr 1.45fr;
+  gap: 1rem;
+}
+
+.panelCard {
+  padding: 1.45rem;
+}
+
+.panelHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.panelHeader h2 {
+  margin: 0;
+  color: #202d42;
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+.panelHeader span {
+  color: #8494ad;
+  font-size: 0.92rem;
+}
+
+.donutSection {
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.donutChart {
+  width: 10rem;
+  height: 10rem;
+  border-radius: 999px;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.donutChart::after {
+  content: "";
+  position: absolute;
+  inset: 1.65rem;
+  border-radius: 999px;
+  background: #ffffff;
+}
+
+.donutCenter {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.donutCenter strong {
+  color: #172641;
+  font-size: 1.45rem;
+}
+
+.donutCenter span {
+  margin-top: 0.2rem;
+  color: #7387a6;
+  font-size: 0.92rem;
+}
+
+.legendList {
+  min-width: 0;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.legendItem {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.legendSwatch {
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 999px;
+}
+
+.legendLabel {
+  color: #566a8c;
+  font-size: 1rem;
+}
+
+.legendValue {
+  color: #1e2b40;
+  font-size: 1.02rem;
+}
+
+.trendCard {
+  min-width: 0;
+}
+
+.lineChartWrap {
+  margin-top: 1.2rem;
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr);
+  gap: 0.8rem;
+}
+
+.yAxis {
+  display: grid;
+  grid-template-rows: repeat(6, 1fr);
+  color: #8e9db5;
+  font-size: 0.85rem;
+  padding-top: 0.3rem;
+}
+
+.lineChartArea {
+  min-width: 0;
+  position: relative;
+}
+
+.chartGridLines {
+  position: absolute;
+  inset: 0 0 1.6rem;
+  background-image: linear-gradient(to bottom, rgba(129, 147, 180, 0.2) 1px, transparent 1px);
+  background-size: 100% calc(100% / 5);
+}
+
+.lineChart {
+  width: 100%;
+  height: auto;
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+
+.areaPath {
+  fill: rgba(70, 118, 227, 0.12);
+}
+
+.linePath {
+  fill: none;
+  stroke: #396fd8;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.lineDot {
+  fill: #ffffff;
+  stroke: #396fd8;
+  stroke-width: 3;
+}
+
+.xAxis {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 0.4rem;
+  color: #7f90aa;
+  font-size: 0.85rem;
+}
+
+.bottomGrid {
+  display: grid;
+  grid-template-columns: 1.05fr 1.15fr 0.8fr;
+  gap: 1rem;
+}
+
+.focusList,
+.themeList {
+  margin-top: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.focusRow,
+.themeCard {
+  padding: 1rem;
+  border-radius: 1rem;
+  background: #f7f9fd;
+}
+
+.focusRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.focusTeam {
+  color: #202d43;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.focusNote {
+  margin: 0.35rem 0 0;
+  color: #71829d;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.focusTone,
+.themePill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  padding: 0 0.8rem;
+  border-radius: 999px;
+  font-size: 0.84rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.focusToneAlert {
+  background: #fff0db;
+  color: #b56d0f;
+}
+
+.focusToneDanger {
+  background: #ffe5e1;
+  color: #c94e3e;
+}
+
+.focusTonePositive {
+  background: #e5f7ef;
+  color: #218c58;
+}
+
+.themeCardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.themeCardTop h3 {
+  margin: 0;
+  color: #1e2c41;
+  font-size: 1.02rem;
+}
+
+.themePill {
+  background: #edf3ff;
+  color: #3567cf;
+}
+
+.themeCard p {
+  margin: 0.55rem 0 0;
+  color: #71819b;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.activityCard {
+  min-width: 0;
+}
+
+.barChart {
+  height: 15rem;
+  margin-top: 1.4rem;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  align-items: end;
+  gap: 0.7rem;
+}
+
+.barColumn {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: end;
+  gap: 0.7rem;
+}
+
+.barValue {
+  width: 100%;
+  border-radius: 1rem 1rem 0.45rem 0.45rem;
+  background: linear-gradient(180deg, #5b8af3 0%, #315ec8 100%);
+  box-shadow: 0 10px 18px rgba(60, 102, 208, 0.18);
+}
+
+.barColumn span {
+  color: #8394ad;
+  font-size: 0.86rem;
+}
+
+@media (max-width: 1320px) {
+  .metricsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .bottomGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 1120px) {
+  .dashboardShell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    gap: 1rem;
+  }
+
+  .chartGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .donutSection {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }
 
 @media (max-width: 720px) {
-  .sessionCard {
-    padding: 1.5rem;
+  .topbar,
+  .dashboardContent,
+  .sidebar {
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 
-  .detailGrid {
+  .metricsGrid {
     grid-template-columns: 1fr;
+  }
+
+  .topbar {
+    flex-wrap: wrap;
+  }
+
+  .searchBar {
+    order: 3;
+    max-width: none;
+    flex-basis: 100%;
+  }
+
+  .lineChartWrap {
+    grid-template-columns: 1fr;
+  }
+
+  .yAxis {
+    display: none;
+  }
+
+  .xAxis {
+    font-size: 0.72rem;
+  }
+
+  .focusRow,
+  .themeCardTop {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
