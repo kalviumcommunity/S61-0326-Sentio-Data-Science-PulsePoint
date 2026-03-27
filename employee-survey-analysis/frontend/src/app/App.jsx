@@ -61,6 +61,7 @@ function App() {
         />
       ) : (
         <SignupPage
+          onGoogleAuthSuccess={handleLoginSuccess}
           onSignupSuccess={handleSignupSuccess}
           onSwitch={handlePageSwitch}
         />
