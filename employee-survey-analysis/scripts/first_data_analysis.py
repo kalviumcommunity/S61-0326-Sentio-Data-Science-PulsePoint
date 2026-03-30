@@ -59,6 +59,44 @@ def main():
             f"(engagement={item['engagement_score']}, workload={item['workload_score']})"
         )
 
+    # 1. Basic if statement
+    print("\n--- Basic if statement example ---")
+    score = 7
+    if score > 5:
+        print("Score is above 5!")
+    # Observe what happens if the condition is false
+    score = 3
+    if score > 5:
+        print("This will not print.")
+
+    # 2. if-else for decision branching
+    print("\n--- if-else example ---")
+    engagement = 6
+    if engagement >= 7:
+        print("High engagement")
+    else:
+        print("Engagement could be improved")
+
+    # 3. Multiple conditions with elif
+    print("\n--- if-elif-else example ---")
+    workload = 8
+    if workload < 5:
+        print("Low workload")
+    elif workload < 8:
+        print("Moderate workload")
+    else:
+        print("High workload")
+
+    # 4. Logical operators
+    print("\n--- Logical operators example ---")
+    engagement = 8
+    workload = 6
+    if engagement > 7 and workload < 7:
+        print("Employee is highly engaged and not overloaded.")
+    if engagement < 6 or workload > 8:
+        print("Employee may need support.")
+    if not (workload > 8):
+        print("Workload is not excessive.")
 
 if __name__ == "__main__":
     main()
