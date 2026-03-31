@@ -1,9 +1,11 @@
-"""A first standalone Python script for simple employee pulse analysis."""
+
+# This script performs a basic analysis of employee survey responses.
+# It demonstrates clear variable naming and meaningful comments per PEP 8.
 
 from statistics import mean
 
 
-SURVEY_RESPONSES = [
+survey_responses = [
     {"employee": "Asha", "department": "HR", "engagement_score": 8, "workload_score": 5},
     {"employee": "Ravi", "department": "Sales", "engagement_score": 6, "workload_score": 8},
     {"employee": "Meera", "department": "Engineering", "engagement_score": 9, "workload_score": 6},
@@ -11,53 +13,75 @@ SURVEY_RESPONSES = [
 ]
 
 
-def average_engagement(responses):
-    return mean(item["engagement_score"] for item in responses)
+
+def calculate_average_engagement(responses):
+    """
+    Calculate the average engagement score from survey responses.
+    """
+    return mean(response["engagement_score"] for response in responses)
 
 
-def average_workload(responses):
-    return mean(item["workload_score"] for item in responses)
+
+def calculate_average_workload(responses):
+    """
+    Calculate the average workload score from survey responses.
+    """
+    return mean(response["workload_score"] for response in responses)
+
 
 
 def find_at_risk_employees(responses):
+    """
+    Identify employees who may need attention based on low engagement or high workload.
+    """
     return [
-        item
-        for item in responses
-        if item["engagement_score"] <= 6 or item["workload_score"] >= 8
+        response
+        for response in responses
+        if response["engagement_score"] <= 6 or response["workload_score"] >= 8
     ]
 
 
+
 def print_department_breakdown(responses):
+    """
+    Print a breakdown of engagement and workload scores by department.
+    """
     print("Department breakdown:")
-    for item in responses:
+    for response in responses:
         print(
-            f"- {item['employee']} ({item['department']}): "
-            f"engagement={item['engagement_score']}, workload={item['workload_score']}"
+            f"- {response['employee']} ({response['department']}): "
+            f"engagement={response['engagement_score']}, workload={response['workload_score']}"
         )
+
 
 
 def main():
-    avg_engagement = average_engagement(SURVEY_RESPONSES)
-    avg_workload = average_workload(SURVEY_RESPONSES)
-    at_risk_employees = find_at_risk_employees(SURVEY_RESPONSES)
+    # Calculate summary statistics for the survey
+    average_engagement_score = calculate_average_engagement(survey_responses)
+    average_workload_score = calculate_average_workload(survey_responses)
+    employees_needing_attention = find_at_risk_employees(survey_responses)
 
     print("PulsePoint: First Python Script for Data Analysis")
     print("=" * 48)
-    print(f"Total responses analysed: {len(SURVEY_RESPONSES)}")
-    print(f"Average engagement score: {avg_engagement:.2f}")
-    print(f"Average workload score: {avg_workload:.2f}")
-    print(f"Employees needing attention: {len(at_risk_employees)}")
+    print(f"Total responses analysed: {len(survey_responses)}")
+    print(f"Average engagement score: {average_engagement_score:.2f}")
+    print(f"Average workload score: {average_workload_score:.2f}")
+    print(f"Employees needing attention: {len(employees_needing_attention)}")
     print()
 
-    print_department_breakdown(SURVEY_RESPONSES)
+    print_department_breakdown(survey_responses)
     print()
 
     print("Employees needing attention:")
-    for item in at_risk_employees:
+    for employee in employees_needing_attention:
         print(
-            f"- {item['employee']} from {item['department']} "
-            f"(engagement={item['engagement_score']}, workload={item['workload_score']})"
+            f"- {employee['employee']} from {employee['department']} "
+            f"(engagement={employee['engagement_score']}, workload={employee['workload_score']})"
         )
+
+
+if __name__ == "__main__":
+    main()
 
     # 1. Basic if statement
     print("\n--- Basic if statement example ---")
