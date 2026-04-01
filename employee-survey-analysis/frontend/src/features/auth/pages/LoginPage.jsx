@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { googleAuthUser, loginUser } from "../api/authClient";
+import { loginUser } from "../api/authClient";
 import AuthLayout from "../components/AuthLayout";
-import GoogleAuthButton from "../components/GoogleAuthButton";
 import styles from "../styles/AuthLayout.module.css";
 
 export default function LoginPage({ onSwitch, notice, onLoginSuccess }) {
@@ -9,7 +8,6 @@ export default function LoginPage({ onSwitch, notice, onLoginSuccess }) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isGoogleSubmitting, setIsGoogleSubmitting] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,31 +28,11 @@ export default function LoginPage({ onSwitch, notice, onLoginSuccess }) {
     }
   };
 
-  const handleGoogleCredential = async (credential) => {
-    setError("");
-    setIsGoogleSubmitting(true);
-
-    try {
-      const response = await googleAuthUser({ credential });
-      onLoginSuccess(response);
-    } catch (requestError) {
-      setError(requestError.message);
-    } finally {
-      setIsGoogleSubmitting(false);
-    }
-  };
 
   return (
     <AuthLayout
       heading="Welcome back"
       description="Sign in to access your engagement dashboard"
-      googleSection={
-        <GoogleAuthButton
-          disabled={isSubmitting || isGoogleSubmitting}
-          onCredential={handleGoogleCredential}
-          onError={setError}
-        />
-      }
       submitLabel={isSubmitting ? "Signing In..." : "Sign In"}
       onSubmit={handleSubmit}
       switchPrompt="Don't have an account?"
@@ -94,9 +72,6 @@ export default function LoginPage({ onSwitch, notice, onLoginSuccess }) {
       </div>
 
       {notice ? <div className={styles.statusMessage}>{notice}</div> : null}
-      {isGoogleSubmitting ? (
-        <div className={styles.statusMessage}>Completing Google sign-in...</div>
-      ) : null}
       {error ? <div className={styles.errorMessage}>{error}</div> : null}
     </AuthLayout>
   );

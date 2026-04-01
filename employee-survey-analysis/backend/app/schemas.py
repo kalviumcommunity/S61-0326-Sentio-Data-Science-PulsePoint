@@ -1,27 +1,32 @@
 from datetime import datetime
-
-from pydantic import BaseModel, EmailStr, Field
-
+from pydantic import BaseModel, EmailStr
 
 class SignupRequest(BaseModel):
-    full_name: str = Field(min_length=2, max_length=120)
+    full_name: str
     email: EmailStr
-    password: str = Field(min_length=8, max_length=128)
-
+    password: str
 
 class LoginRequest(BaseModel):
     email: EmailStr
-    password: str = Field(min_length=8, max_length=128)
+    password: str
 
-
-class GoogleAuthRequest(BaseModel):
-    credential: str = Field(min_length=20)
-
-
-class UserResponse(BaseModel):
-    id: int
-    full_name: str
+class UserBase(BaseModel):
     email: EmailStr
+
+class UserCreate(UserBase):
+    password: str
+
+class UserRead(UserBase):
+    id: int
+    is_active: bool
+
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
     created_at: datetime
 
     model_config = {"from_attributes": True}
@@ -31,7 +36,7 @@ class AuthResponse(BaseModel):
     access_token: str
     token_type: str = "bearer"
     message: str
-    user: UserResponse
+    user: UserRead
 
 
 class DashboardMetricResponse(BaseModel):

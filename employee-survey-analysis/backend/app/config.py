@@ -3,14 +3,15 @@ from functools import lru_cache
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
+
+
 class Settings(BaseSettings):
     project_name: str = "PulsePoint API"
-    api_v1_prefix: str = "/api"
-    database_url: str = "postgresql+psycopg://postgres:postgres@localhost:5432/pulsepoint"
+    api_v1_prefix: str = "/api/v1"
     frontend_origin: str = "http://localhost:5173"
-    google_client_id: str = ""
-    jwt_secret_key: str = "change-me-before-production"
-    jwt_algorithm: str = "HS256"
+    database_url: str
+    secret_key: str
+    algorithm: str = "HS256"
     access_token_expire_minutes: int = 60
 
     model_config = SettingsConfigDict(

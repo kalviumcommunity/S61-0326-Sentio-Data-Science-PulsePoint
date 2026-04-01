@@ -28,9 +28,6 @@ export function loginUser(payload) {
   return sendRequest("/auth/login", { method: "POST", payload });
 }
 
-export function googleAuthUser(payload) {
-  return sendRequest("/auth/google", { method: "POST", payload });
-}
 
 export function fetchDashboardOverview(token) {
   return sendRequest("/dashboard/overview", { token });

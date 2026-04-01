@@ -205,16 +205,7 @@ export default function AuthLayout({
             {submitLabel}
           </button>
 
-          <div className={styles.divider}>
-            <span>OR CONTINUE WITH</span>
-          </div>
 
-          {googleSection || (
-            <button type="button" className={styles.googleButton}>
-              <GoogleIcon />
-              Continue with Google
-            </button>
-          )}
 
           <p className={styles.switchText}>
             {switchPrompt}

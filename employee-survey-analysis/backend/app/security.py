@@ -3,8 +3,6 @@ from secrets import token_urlsafe
 
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from google.auth.transport import requests as google_requests
-from google.oauth2 import id_token as google_id_token
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
@@ -32,15 +30,6 @@ def generate_random_password_hash() -> str:
     return hash_password(token_urlsafe(32))
 
 
-def verify_google_credential(credential: str):
-    if not settings.google_client_id:
-        raise ValueError("Google authentication is not configured on the server.")
-
-    return google_id_token.verify_oauth2_token(
-        credential,
-        google_requests.Request(),
-        settings.google_client_id,
-    )
 
 
 def create_access_token(subject: str) -> str:
