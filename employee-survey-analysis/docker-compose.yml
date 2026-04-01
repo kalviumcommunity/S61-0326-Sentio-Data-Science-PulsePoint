@@ -6,7 +6,7 @@ services:
     environment:
       POSTGRES_DB: pulsepoint
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: gunapriya@123
     ports:
       - "5432:5432"
     volumes:

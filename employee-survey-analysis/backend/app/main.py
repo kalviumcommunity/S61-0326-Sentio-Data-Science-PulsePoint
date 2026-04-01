@@ -179,18 +179,8 @@ def seed_dashboard_data(db: Session):
 def run_startup_migrations():
     Base.metadata.create_all(bind=engine)
 
-    with engine.begin() as connection:
-        inspector = inspect(connection)
-        if not inspector.has_table("users"):
-            return
 
-        column_names = {column["name"] for column in inspector.get_columns("users")}
-        if "google_sub" not in column_names:
-            connection.execute(text("ALTER TABLE users ADD COLUMN google_sub VARCHAR(255)"))
-
-        connection.execute(
-            text("CREATE UNIQUE INDEX IF NOT EXISTS ix_users_google_sub ON users (google_sub)")
-        )
+    # Remove Google auth migration logic (google_sub column/index)
 
     with SessionLocal() as db:
         seed_dashboard_data(db)

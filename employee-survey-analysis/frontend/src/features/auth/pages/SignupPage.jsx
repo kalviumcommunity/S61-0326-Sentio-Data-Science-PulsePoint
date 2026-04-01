@@ -1,11 +1,9 @@
 import { useState } from "react";
-import { googleAuthUser, signupUser } from "../api/authClient";
+import { signupUser } from "../api/authClient";
 import AuthLayout from "../components/AuthLayout";
-import GoogleAuthButton from "../components/GoogleAuthButton";
 import styles from "../styles/AuthLayout.module.css";
 
 export default function SignupPage({
-  onGoogleAuthSuccess,
   onSwitch,
   onSignupSuccess,
 }) {
@@ -14,7 +12,6 @@ export default function SignupPage({
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isGoogleSubmitting, setIsGoogleSubmitting] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,31 +35,10 @@ export default function SignupPage({
     }
   };
 
-  const handleGoogleCredential = async (credential) => {
-    setError("");
-    setIsGoogleSubmitting(true);
-
-    try {
-      const response = await googleAuthUser({ credential });
-      onGoogleAuthSuccess(response);
-    } catch (requestError) {
-      setError(requestError.message);
-    } finally {
-      setIsGoogleSubmitting(false);
-    }
-  };
-
   return (
     <AuthLayout
       heading="Create your account"
       description="Get started with employee analytics"
-      googleSection={
-        <GoogleAuthButton
-          disabled={isSubmitting || isGoogleSubmitting}
-          onCredential={handleGoogleCredential}
-          onError={setError}
-        />
-      }
       submitLabel={isSubmitting ? "Creating Account..." : "Create Account"}
       onSubmit={handleSubmit}
       switchPrompt="Already have an account?"
@@ -118,13 +94,9 @@ export default function SignupPage({
       </div>
 
       <p className={styles.supportText}>
-        Passwords must be at least 8 characters and will be hashed before they
-        are stored in PostgreSQL.
+        By signing up, you agree to our terms and privacy policy.
       </p>
 
-      {isGoogleSubmitting ? (
-        <div className={styles.statusMessage}>Completing Google sign-in...</div>
-      ) : null}
       {error ? <div className={styles.errorMessage}>{error}</div> : null}
     </AuthLayout>
   );
