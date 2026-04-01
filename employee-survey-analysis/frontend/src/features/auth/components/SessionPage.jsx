@@ -1,6 +1,11 @@
+
 import { useEffect, useState } from "react";
 import { fetchDashboardOverview } from "../api/authClient";
 import styles from "../styles/SessionPage.module.css";
+import Overview from "../../../app/pages/Overview";
+import Departments from "../../../app/pages/Departments";
+import Trends from "../../../app/pages/Trends";
+import FeedbackExplorer from "../../../app/pages/FeedbackExplorer";
 
 const sidebarSections = [
   {
@@ -201,10 +206,12 @@ function buildDonutGradient(segments) {
   return `conic-gradient(${stops.join(", ")})`;
 }
 
+
 export default function SessionPage({ session, onLogout }) {
   const [dashboard, setDashboard] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
+  const [selectedPage, setSelectedPage] = useState("Overview");
 
   useEffect(() => {
     let isMounted = true;
@@ -276,9 +283,8 @@ export default function SessionPage({ session, onLogout }) {
                   <button
                     key={item}
                     type="button"
-                    className={`${styles.navItem} ${
-                      section.title === "Analytics" && index === 0 ? styles.navItemActive : ""
-                    }`}
+                    className={`${styles.navItem} ${selectedPage === item ? styles.navItemActive : ""}`}
+                    onClick={() => setSelectedPage(item)}
                   >
                     <span className={styles.navIcon}>{index + 1}</span>
                     <span>{item}</span>
@@ -323,237 +329,10 @@ export default function SessionPage({ session, onLogout }) {
         </header>
 
         <div className={styles.dashboardContent}>
-          <section className={styles.heroBlock}>
-            <div>
-              <p className={styles.heroEyebrow}>
-                {dashboard?.title || "Employee Engagement Dashboard"}
-              </p>
-              <h1 className={styles.heroTitle}>
-                Welcome back, {session.user.full_name.split(" ")[0]}
-              </h1>
-              <p className={styles.heroDescription}>
-                {dashboard?.subtitle ||
-                  "Loading dashboard insights from FastAPI + PostgreSQL."}
-              </p>
-            </div>
-          </section>
-
-          <section className={styles.alertBanner}>
-            <div className={styles.alertIcon}>
-              <AlertIcon />
-            </div>
-            <div>
-              <div className={styles.alertTitle}>
-                {dashboard?.alert_title || "Attention Required"}
-              </div>
-              <p className={styles.alertText}>
-                {dashboard?.alert_text ||
-                  "Preparing live trend alerts from your PostgreSQL dashboard tables."}
-              </p>
-            </div>
-          </section>
-
-          {isLoading ? (
-            <section className={styles.stateCard}>
-              <h2>Loading dashboard data...</h2>
-              <p>Fetching live metrics, trends, and focus areas from FastAPI.</p>
-            </section>
-          ) : null}
-
-          {error ? (
-            <section className={styles.stateCard}>
-              <h2>Dashboard unavailable</h2>
-              <p>{error}</p>
-              <button
-                type="button"
-                className={styles.stateButton}
-                onClick={() => window.location.reload()}
-              >
-                Retry
-              </button>
-            </section>
-          ) : null}
-
-          {!isLoading && !error ? (
-            <>
-              <section className={styles.metricsGrid}>
-                {metricCards.map((card) => (
-                  <article key={card.title} className={styles.metricCard}>
-                    <div className={styles.metricCardHeader}>
-                      <div className={styles.metricIconWrap}>
-                        {getMetricIcon(card.icon)}
-                      </div>
-                      <div
-                        className={`${styles.metricTrend} ${
-                          card.tone === "up"
-                            ? styles.metricTrendUp
-                            : card.tone === "down"
-                              ? styles.metricTrendDown
-                              : styles.metricTrendAlert
-                        }`}
-                      >
-                        {card.tone === "up" ? "↗ " : "↘ "}
-                        {card.trend}
-                      </div>
-                    </div>
-                    <div className={styles.metricValue}>{card.value}</div>
-                    <div className={styles.metricLabel}>{card.title}</div>
-                    <div className={styles.metricDetail}>{card.detail}</div>
-                  </article>
-                ))}
-              </section>
-
-              <section className={styles.chartGrid}>
-                <article className={styles.panelCard}>
-                  <div className={styles.panelHeader}>
-                    <h2>Sentiment Distribution</h2>
-                    <span>Current quarter</span>
-                  </div>
-
-                  <div className={styles.donutSection}>
-                    <div className={styles.donutChart} style={donutStyle}>
-                      <div className={styles.donutCenter}>
-                        <strong>{sentimentData[0]?.value ?? 0}%</strong>
-                        <span>{sentimentData[0]?.label ?? "Positive"}</span>
-                      </div>
-                    </div>
-
-                    <div className={styles.legendList}>
-                      {sentimentData.map((item) => (
-                        <div key={item.label} className={styles.legendItem}>
-                          <span
-                            className={styles.legendSwatch}
-                            style={{ backgroundColor: item.color }}
-                          />
-                          <span className={styles.legendLabel}>{item.label}</span>
-                          <strong className={styles.legendValue}>{item.value}%</strong>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </article>
-
-                <article className={`${styles.panelCard} ${styles.trendCard}`}>
-                  <div className={styles.panelHeader}>
-                    <h2>Satisfaction Trend</h2>
-                    <span>Jan to Dec</span>
-                  </div>
-
-                  <div className={styles.lineChartWrap}>
-                    <div className={styles.yAxis}>
-                      <span>8.0</span>
-                      <span>7.5</span>
-                      <span>7.0</span>
-                      <span>6.5</span>
-                      <span>6.0</span>
-                      <span>5.5</span>
-                    </div>
-                    <div className={styles.lineChartArea}>
-                      <div className={styles.chartGridLines} />
-                      <svg viewBox="0 0 640 220" className={styles.lineChart} aria-hidden="true">
-                        <path className={styles.areaPath} d={areaPath} />
-                        <path className={styles.linePath} d={linePath} />
-                        {monthlyTrend.map((point, index) => {
-                          const x =
-                            monthlyTrend.length > 1
-                              ? (640 / (monthlyTrend.length - 1)) * index
-                              : 320;
-                          const y = 220 - ((point.value - 5) / 3) * 220;
-                          return (
-                            <circle
-                              key={point.label}
-                              cx={x}
-                              cy={y}
-                              r="5.5"
-                              className={styles.lineDot}
-                            />
-                          );
-                        })}
-                      </svg>
-                      <div className={styles.xAxis}>
-                        {monthlyTrend.map((point) => (
-                          <span key={point.label}>{point.label}</span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </article>
-              </section>
-
-              <section className={styles.bottomGrid}>
-                <article className={styles.panelCard}>
-                  <div className={styles.panelHeader}>
-                    <h2>Priority Departments</h2>
-                    <span>Focus now</span>
-                  </div>
-
-                  <div className={styles.focusList}>
-                    {teamFocusAreas.map((item) => (
-                      <div key={item.team} className={styles.focusRow}>
-                        <div>
-                          <div className={styles.focusTeam}>{item.team}</div>
-                          <p className={styles.focusNote}>{item.note}</p>
-                        </div>
-                        <span
-                          className={`${styles.focusTone} ${
-                            item.tone === "positive"
-                              ? styles.focusTonePositive
-                              : item.tone === "danger"
-                                ? styles.focusToneDanger
-                                : styles.focusToneAlert
-                          }`}
-                        >
-                          {item.tone === "positive"
-                            ? "Improving"
-                            : item.tone === "danger"
-                              ? "High Risk"
-                              : "Watch"}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </article>
-
-                <article className={styles.panelCard}>
-                  <div className={styles.panelHeader}>
-                    <h2>Theme Signals</h2>
-                    <span>Open comment analysis</span>
-                  </div>
-
-                  <div className={styles.themeList}>
-                    {feedbackThemes.map((theme) => (
-                      <div key={theme.title} className={styles.themeCard}>
-                        <div className={styles.themeCardTop}>
-                          <h3>{theme.title}</h3>
-                          <span className={styles.themePill}>{theme.trend}</span>
-                        </div>
-                        <p>{theme.description}</p>
-                      </div>
-                    ))}
-                  </div>
-                </article>
-
-                <article className={`${styles.panelCard} ${styles.activityCard}`}>
-                  <div className={styles.panelHeader}>
-                    <h2>Response Volume</h2>
-                    <span>By cohort</span>
-                  </div>
-
-                  <div className={styles.barChart}>
-                    {volumePoints.map((point) => (
-                      <div key={point.label} className={styles.barColumn}>
-                        <div
-                          className={styles.barValue}
-                          style={{ height: `${(point.value / maxVolumeValue) * 100}%` }}
-                        />
-                        <span>{point.label}</span>
-                      </div>
-                    ))}
-                  </div>
-                </article>
-              </section>
-            </>
-          ) : null}
+          {selectedPage === "Overview" && <Overview />}
+          {selectedPage === "Departments" && <Departments />}
+          {selectedPage === "Trends" && <Trends />}
+          {selectedPage === "Feedback Explorer" && <FeedbackExplorer />}
         </div>
       </section>
     </main>
