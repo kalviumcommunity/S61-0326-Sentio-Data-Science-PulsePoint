@@ -399,3 +399,25 @@ Basic file management operations were performed to ensure proper handling of not
 Jupyter Notebook was successfully launched and configured within the project environment. The interface, navigation, notebook creation, execution, and file management were all verified. This ensures a stable and organized workspace for future data science tasks in the PulsePoint project.
 
 ---
+
+## Structuring Python Code for Readability and Reuse
+
+This task focuses on organizing Python code into a clean and logical structure to improve readability, maintainability, and reuse.
+
+### Key Concepts Implemented
+
+- Code is divided into clear sections:
+  - Imports
+  - Helper functions
+  - Main execution logic
+- Functions are used to avoid repetition
+- Logic is separated from execution
+- Code follows a top-to-bottom readable flow
+
+### Structure Used
+
+1. Helper functions for calculations
+2. A main() function to control program flow
+3. An entry point using:
+   ```python
+   if __name__ == "__main__":
