@@ -20,12 +20,14 @@ async function sendRequest(endpoint, { method = "GET", payload, token } = {}) {
   return data;
 }
 
+
 export function signupUser(payload) {
-  return sendRequest("/auth/signup", { method: "POST", payload });
+  return sendRequest("/v1/auth/signup", { method: "POST", payload });
 }
 
+
 export function loginUser(payload) {
-  return sendRequest("/auth/login", { method: "POST", payload });
+  return sendRequest("/v1/auth/login", { method: "POST", payload });
 }
 
 

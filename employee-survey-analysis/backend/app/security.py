@@ -37,7 +37,7 @@ def create_access_token(subject: str) -> str:
         minutes=settings.access_token_expire_minutes
     )
     payload = {"sub": subject, "exp": expires_at}
-    return jwt.encode(payload, settings.jwt_secret_key, algorithm=settings.jwt_algorithm)
+    return jwt.encode(payload, settings.secret_key, algorithm=settings.algorithm)
 
 
 def get_current_user(
@@ -49,8 +49,8 @@ def get_current_user(
     try:
         payload = jwt.decode(
             token,
-            settings.jwt_secret_key,
-            algorithms=[settings.jwt_algorithm],
+            settings.secret_key,
+            algorithms=[settings.algorithm],
         )
         subject = payload.get("sub")
         user_id = int(subject) if subject is not None else None

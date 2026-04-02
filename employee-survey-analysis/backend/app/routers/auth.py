@@ -17,10 +17,17 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 
 
 def build_auth_response(user: User, message: str) -> AuthResponse:
+    from app.schemas import UserRead
+    user_read = UserRead(
+        id=user.id,
+        email=user.email,
+        full_name=user.full_name,
+        is_active=True  # or set according to your model if you have an is_active field
+    )
     return AuthResponse(
         access_token=create_access_token(str(user.id)),
         message=message,
-        user=user,
+        user=user_read,
     )
 
 

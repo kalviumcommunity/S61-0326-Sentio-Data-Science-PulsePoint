@@ -31,9 +31,12 @@ function App() {
     setPage(nextPage);
   };
 
-  const handleSignupSuccess = (email) => {
-    setNotice(`Account created for ${email}. Sign in to continue.`);
-    setPage("login");
+
+  // After signup, go directly to dashboard
+  const handleSignupSuccess = (authSession) => {
+    setNotice("");
+    setSession(authSession);
+    setPage("session");
   };
 
   const handleLoginSuccess = (authSession) => {
