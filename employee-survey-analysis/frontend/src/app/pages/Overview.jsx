@@ -1,91 +1,189 @@
-import React from 'react';
+import React from "react";
 
+const containerStyle = {
+  minHeight: "100vh",
+  backgroundColor: "#f5f7fb",
+  padding: "2rem",
+  fontFamily: "Inter, sans-serif",
+};
 
-const cardStyle = {
-  display: 'flex',
-  gap: '2rem',
-  marginBottom: '2rem',
+const card = {
+  background: "#ffffff",
+  borderRadius: "12px",
+  padding: "1.5rem",
+  boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
 };
-const statStyle = {
-  background: '#f7f7fa',
-  borderRadius: '12px',
-  padding: '1.5rem',
-  minWidth: '120px',
-  textAlign: 'center',
-  boxShadow: '0 1px 4px #e0e0e0',
+
+const statCard = {
+  ...card,
+  flex: 1,
 };
-const alertStyle = {
-  background: '#ffeaea',
-  color: '#b71c1c',
-  borderRadius: '8px',
-  padding: '1rem',
-  marginBottom: '1.5rem',
-  fontWeight: 500,
+
+const row = {
+  display: "flex",
+  gap: "1.5rem",
 };
-const pieStyle = {
-  width: 120,
-  height: 120,
-  borderRadius: '50%',
-  background: 'conic-gradient(#4caf50 0% 42%, #bdbdbd 42% 72%, #e53935 72% 100%)',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  margin: '0 auto',
+
+const alertBox = {
+  ...card,
+  border: "1px solid #f5c2c7",
+  backgroundColor: "#fff1f2",
+  color: "#842029",
+};
+
+const donut = {
+  width: 140,
+  height: 140,
+  borderRadius: "50%",
+  background:
+    "conic-gradient(#22c55e 0% 42%, #94a3b8 42% 72%, #ef4444 72% 100%)",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  margin: "0 auto",
+  position: "relative",
+};
+
+const donutInner = {
+  width: 90,
+  height: 90,
+  borderRadius: "50%",
+  background: "#fff",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  flexDirection: "column",
 };
 
 export default function Overview() {
   return (
-    <div style={{ padding: '2rem', maxWidth: 900 }}>
-      <h2 style={{ marginBottom: '1rem' }}>Employee Engagement Dashboard</h2>
-      <div style={alertStyle}>
-        <div>Attention Required</div>
-        <div style={{ fontSize: 14, marginTop: 4 }}>
-          Support — Satisfaction Score <b>-12%</b> (last 30 days)<br />
-          Sales — Negative Sentiment <b>+18%</b> (last quarter)
+    <div style={containerStyle}>
+      {/* Header */}
+      <h2 style={{ marginBottom: "0.3rem" }}>
+        Employee Engagement Dashboard
+      </h2>
+      <p style={{ color: "#6b7280", marginBottom: "1.5rem" }}>
+        Q4 2024 Survey Analysis — 2,847 responses collected
+      </p>
+
+      {/* Alert */}
+      <div style={{ ...alertBox, marginBottom: "1.5rem" }}>
+        <strong>⚠ Attention Required</strong>
+        <div style={{ marginTop: 6, fontSize: 14 }}>
+          Support — Satisfaction Score{" "}
+          <span style={{ color: "green" }}>-12%</span> (last 30 days)
+          <br />
+          Sales — Negative Sentiment{" "}
+          <span style={{ color: "red" }}>+18%</span> (last quarter)
         </div>
       </div>
-      <div style={cardStyle}>
-        <div style={statStyle}>
-          <div style={{ fontSize: 28, fontWeight: 700 }}>6.8/10</div>
-          <div style={{ color: '#888' }}>Overall Satisfaction</div>
+
+      {/* Stats */}
+      <div style={{ ...row, marginBottom: "2rem" }}>
+        <div style={statCard}>
+          <div style={{ fontSize: 14, color: "#6b7280" }}>
+            Overall Satisfaction
+          </div>
+          <div style={{ fontSize: 28, fontWeight: "bold" }}>6.8/10</div>
+          <div style={{ color: "red", fontSize: 13 }}>↓ -4.2%</div>
         </div>
-        <div style={statStyle}>
-          <div style={{ fontSize: 28, fontWeight: 700 }}>28.4%</div>
-          <div style={{ color: '#888' }}>Negative Sentiment</div>
+
+        <div style={statCard}>
+          <div style={{ fontSize: 14, color: "#6b7280" }}>
+            Negative Sentiment
+          </div>
+          <div style={{ fontSize: 28, fontWeight: "bold" }}>28.4%</div>
+          <div style={{ color: "red", fontSize: 13 }}>↓ 17.8%</div>
         </div>
-        <div style={statStyle}>
-          <div style={{ fontSize: 28, fontWeight: 700 }}>2,847</div>
-          <div style={{ color: '#888' }}>Total Responses</div>
+
+        <div style={statCard}>
+          <div style={{ fontSize: 14, color: "#6b7280" }}>
+            Total Responses
+          </div>
+          <div style={{ fontSize: 28, fontWeight: "bold" }}>2,847</div>
+          <div style={{ color: "green", fontSize: 13 }}>↑ +12%</div>
         </div>
-        <div style={statStyle}>
-          <div style={{ fontSize: 28, fontWeight: 700 }}>8</div>
-          <div style={{ color: '#888' }}>Topics Detected</div>
+
+        <div style={statCard}>
+          <div style={{ fontSize: 14, color: "#6b7280" }}>
+            Topics Detected
+          </div>
+          <div style={{ fontSize: 28, fontWeight: "bold" }}>8</div>
+          <div style={{ color: "green", fontSize: 13 }}>↑ 2 new</div>
         </div>
       </div>
-      <div style={{ display: 'flex', gap: '2rem', marginTop: 32 }}>
-        <div style={{ flex: 1 }}>
-          <h4>Sentiment Distribution</h4>
-          <div style={pieStyle}>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontWeight: 700, fontSize: 20 }}>42%</div>
-              <div style={{ fontSize: 13, color: '#4caf50' }}>Positive</div>
+
+      {/* Charts */}
+      <div style={row}>
+        {/* Donut */}
+        <div style={{ ...card, flex: 1 }}>
+          <h4 style={{ marginBottom: "1rem" }}>
+            Sentiment Distribution
+          </h4>
+
+          <div style={donut}>
+            <div style={donutInner}>
+              <strong>42%</strong>
+              <span style={{ fontSize: 12, color: "#22c55e" }}>
+                Positive
+              </span>
             </div>
           </div>
-          <ul style={{ marginTop: 16, fontSize: 15 }}>
-            <li style={{ color: '#4caf50' }}>Positive: 42%</li>
-            <li style={{ color: '#888' }}>Neutral: 30%</li>
-            <li style={{ color: '#e53935' }}>Negative: 28%</li>
-          </ul>
-        </div>
-        <div style={{ flex: 2 }}>
-          <h4>Satisfaction Trend</h4>
-          <div style={{ height: 180, background: 'linear-gradient(to top, #e3f2fd, #fff)', borderRadius: 8, display: 'flex', alignItems: 'flex-end', padding: 8 }}>
-            <div style={{ width: '100%', height: 4, background: '#1976d2', borderRadius: 2 }} />
+
+          <div style={{ marginTop: 16 }}>
+            <div style={{ color: "#22c55e" }}>● Positive 42%</div>
+            <div style={{ color: "#64748b" }}>● Neutral 30%</div>
+            <div style={{ color: "#ef4444" }}>● Negative 28%</div>
           </div>
-          <div style={{ fontSize: 13, color: '#888', marginTop: 8 }}>Jan - Dec</div>
+        </div>
+
+        {/* Line Chart */}
+        <div style={{ ...card, flex: 2 }}>
+          <h4 style={{ marginBottom: "1rem" }}>
+            Satisfaction Trend
+          </h4>
+
+          <div
+            style={{
+              height: 200,
+              borderRadius: 8,
+              background:
+                "linear-gradient(to top, #e0ecff, #f8fbff)",
+              position: "relative",
+              padding: "1rem",
+            }}
+          >
+            {/* Fake line */}
+            <svg width="100%" height="100%">
+              <polyline
+                fill="none"
+                stroke="#2563eb"
+                strokeWidth="3"
+                points="0,120 60,110 120,100 180,120 240,90 300,80 360,100 420,110"
+              />
+            </svg>
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              fontSize: 12,
+              color: "#6b7280",
+              marginTop: 8,
+            }}
+          >
+            <span>Jan</span>
+            <span>Feb</span>
+            <span>Mar</span>
+            <span>Apr</span>
+            <span>May</span>
+            <span>Jun</span>
+            <span>Jul</span>
+            <span>Aug</span>
+          </div>
         </div>
       </div>
     </div>
   );
 }
-

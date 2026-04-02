@@ -1,68 +1,172 @@
-import React from 'react';
+import React from "react";
 
+const container = {
+  padding: "2rem",
+  background: "#f5f7fb",
+  minHeight: "100vh",
+  fontFamily: "Inter, sans-serif",
+};
+
+const card = {
+  background: "#fff",
+  borderRadius: "12px",
+  padding: "1rem 1.25rem",
+  boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+  marginBottom: "1rem",
+};
+
+const pill = (bg, color) => ({
+  background: bg,
+  color: color,
+  fontSize: 12,
+  fontWeight: 600,
+  padding: "4px 8px",
+  borderRadius: 999,
+  display: "inline-block",
+  marginRight: 8,
+});
+
+const highlight = {
+  background: "#fee2e2",
+  color: "#dc2626",
+  padding: "2px 4px",
+  borderRadius: 4,
+  fontWeight: 500,
+};
 
 const feedbacks = [
   {
-    sentiment: 'NEGATIVE',
-    color: '#e53935',
-    role: 'Sales · Account Executive',
-    text: "The constant <b>overtime</b> and unrealistic targets are burning everyone out. <b>Management</b> doesn't listen to our concerns about workload.",
-    date: '2024-12-15',
-    score: '3/10',
+    sentiment: "NEGATIVE",
+    role: "Sales · Account Executive",
+    text: "The constant overtime and unrealistic targets are burning everyone out. Management doesn't listen to our concerns about workload.",
+    date: "2024-12-15",
+    score: "3/10",
   },
   {
-    sentiment: 'POSITIVE',
-    color: '#43a047',
-    role: 'Engineering · Senior Developer',
-    text: 'Great team culture and interesting projects. Would love more clarity on promotion criteria though.',
-    date: '2024-12-14',
-    score: '8/10',
+    sentiment: "POSITIVE",
+    role: "Engineering · Senior Developer",
+    text: "Great team culture and interesting projects. Would love more clarity on promotion criteria though.",
+    date: "2024-12-14",
+    score: "8/10",
   },
   {
-    sentiment: 'NEGATIVE',
-    color: '#e53935',
-    role: 'Support · Customer Support Lead',
-    text: 'We are severely <b>understaffed</b>. The <b>burnout</b> is real and <b>management</b> keeps adding more responsibilities without extra pay.',
-    date: '2024-12-13',
-    score: '2/10',
+    sentiment: "NEGATIVE",
+    role: "Support · Customer Support Lead",
+    text: "We are severely understaffed. The burnout is real and management keeps adding more responsibilities without extra pay.",
+    date: "2024-12-13",
+    score: "2/10",
   },
   {
-    sentiment: 'NEUTRAL',
-    color: '#757575',
-    role: 'Marketing · Content Strategist',
-    text: 
-      'Work is fine but there\'s not much room for growth. Would appreciate more training opportunities.',
-    date: '2024-12-12',
-    score: '6/10',
-  },
-  {
-    sentiment: 'NEGATIVE',
-    color: '#e53935',
-    role: 'Operations · Operations Manager',
-    text: 'Communication between departments is <b>terrible</b>. Nobody knows what anyone else is doing and it creates so much <b>wasted</b> effort.',
-    date: '2024-12-11',
-    score: '4/10',
+    sentiment: "NEUTRAL",
+    role: "Marketing · Content Strategist",
+    text: "Work is fine but there's not much room for growth. Would appreciate more training opportunities.",
+    date: "2024-12-12",
+    score: "6/10",
   },
 ];
 
+const getSentimentStyle = (type) => {
+  if (type === "NEGATIVE") return pill("#fee2e2", "#dc2626");
+  if (type === "POSITIVE") return pill("#dcfce7", "#16a34a");
+  return pill("#e0f2fe", "#2563eb");
+};
+
+// highlight keywords like screenshot
+const highlightText = (text) => {
+  const keywords = ["overtime", "burnout", "management", "understaffed"];
+  let result = text;
+
+  keywords.forEach((word) => {
+    const regex = new RegExp(`(${word})`, "gi");
+    result = result.replace(
+      regex,
+      `<span style="background:#fee2e2;color:#dc2626;padding:2px 4px;border-radius:4px;">$1</span>`
+    );
+  });
+
+  return result;
+};
+
 export default function FeedbackExplorer() {
   return (
-    <div style={{ padding: '2rem', maxWidth: 900 }}>
-      <h2 style={{ marginBottom: '1rem' }}>Feedback Explorer</h2>
-      <input type="text" placeholder="Search comments..." style={{ width: 320, marginBottom: 24, padding: 8, borderRadius: 6, border: '1px solid #ccc' }} />
-      <div>
-        {feedbacks.map((f, i) => (
-          <div key={i} style={{ border: '1px solid #eee', borderRadius: 8, marginBottom: 18, padding: 16, background: '#fff' }}>
-            <div style={{ color: f.color, fontWeight: 700, fontSize: 13, marginBottom: 2 }}>{f.sentiment} <span style={{ color: '#888', fontWeight: 400, marginLeft: 8 }}>{f.role}</span></div>
-            <div style={{ fontSize: 15, marginBottom: 6 }} dangerouslySetInnerHTML={{ __html: f.text }} />
-            <div style={{ fontSize: 13, color: '#888', display: 'flex', justifyContent: 'space-between' }}>
-              <span>{f.date}</span>
-              <span>{f.score}</span>
+    <div style={container}>
+      {/* Header */}
+      <div style={{ marginBottom: "1.5rem" }}>
+        <h2 style={{ marginBottom: 4 }}>Feedback Explorer</h2>
+        <p style={{ color: "#6b7280" }}>
+          Browse and search raw employee responses
+        </p>
+      </div>
+
+      {/* Top Controls */}
+      <div
+        style={{
+          ...card,
+          display: "flex",
+          alignItems: "center",
+          gap: "1rem",
+          marginBottom: "1.5rem",
+        }}
+      >
+        <input
+          placeholder="Search comments..."
+          style={{
+            flex: 1,
+            padding: "10px",
+            borderRadius: 8,
+            border: "1px solid #e5e7eb",
+            background: "#f9fafb",
+          }}
+        />
+
+        <select style={{ padding: 8, borderRadius: 8 }}>
+          <option>All Sentiments</option>
+        </select>
+
+        <select style={{ padding: 8, borderRadius: 8 }}>
+          <option>All Departments</option>
+        </select>
+
+        <span style={{ fontSize: 13, color: "#6b7280" }}>
+          12 results
+        </span>
+      </div>
+
+      {/* Feedback List */}
+      {feedbacks.map((f, i) => (
+        <div key={i} style={card}>
+          {/* Top Row */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginBottom: 6,
+              alignItems: "center",
+            }}
+          >
+            <div>
+              <span style={getSentimentStyle(f.sentiment)}>
+                {f.sentiment}
+              </span>
+              <span style={{ color: "#6b7280", fontSize: 13 }}>
+                {f.role}
+              </span>
+            </div>
+
+            <div style={{ fontSize: 13, color: "#6b7280" }}>
+              {f.date} &nbsp; <strong>{f.score}</strong>
             </div>
           </div>
-        ))}
-      </div>
+
+          {/* Text */}
+          <div
+            style={{ fontSize: 15, color: "#374151" }}
+            dangerouslySetInnerHTML={{
+              __html: highlightText(f.text),
+            }}
+          />
+        </div>
+      ))}
     </div>
   );
 }
-
