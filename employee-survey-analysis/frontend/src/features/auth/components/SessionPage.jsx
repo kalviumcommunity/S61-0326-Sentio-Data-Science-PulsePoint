@@ -212,6 +212,7 @@ export default function SessionPage({ session, onLogout }) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
   const [selectedPage, setSelectedPage] = useState("Overview");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   useEffect(() => {
     let isMounted = true;
@@ -264,8 +265,13 @@ export default function SessionPage({ session, onLogout }) {
   const areaPath = buildAreaPath(monthlyTrend);
 
   return (
-    <main className={styles.dashboardShell}>
-      <aside className={styles.sidebar}>
+    <main
+      className={`${styles.dashboardShell} ${!isSidebarOpen ? styles.dashboardShellCollapsed : ""}`}
+    >
+      <aside
+        id="app-sidebar"
+        className={`${styles.sidebar} ${!isSidebarOpen ? styles.sidebarCollapsed : ""}`}
+      >
         <div className={styles.sidebarHeader}>
           <div className={styles.brandBadge}>PP</div>
           <div>
@@ -310,7 +316,14 @@ export default function SessionPage({ session, onLogout }) {
 
       <section className={styles.dashboardMain}>
         <header className={styles.topbar}>
-          <button type="button" className={styles.topbarButton} aria-label="Open menu">
+          <button
+            type="button"
+            className={styles.topbarButton}
+            aria-label={isSidebarOpen ? "Close menu" : "Open menu"}
+            aria-controls="app-sidebar"
+            aria-expanded={isSidebarOpen}
+            onClick={() => setIsSidebarOpen((current) => !current)}
+          >
             <MenuIcon />
           </button>
 

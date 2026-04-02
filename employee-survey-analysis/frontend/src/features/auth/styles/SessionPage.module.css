@@ -7,6 +7,10 @@
     linear-gradient(180deg, #eef3fb 0%, #f8fbff 100%);
 }
 
+.dashboardShellCollapsed {
+  grid-template-columns: 0 minmax(0, 1fr);
+}
+
 .sidebar {
   display: flex;
   flex-direction: column;
@@ -15,6 +19,16 @@
   background: #18202d;
   color: #edf3ff;
   border-right: 1px solid rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+  transition:
+    transform 0.25s ease,
+    opacity 0.25s ease;
+}
+
+.sidebarCollapsed {
+  transform: translateX(-100%);
+  opacity: 0;
+  pointer-events: none;
 }
 
 .sidebarHeader {
