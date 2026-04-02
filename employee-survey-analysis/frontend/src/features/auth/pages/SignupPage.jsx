@@ -27,7 +27,7 @@ export default function SignupPage({
       setName("");
       setEmail("");
       setPassword("");
-      onSignupSuccess(response.user.email);
+      onSignupSuccess(response);
     } catch (requestError) {
       setError(requestError.message);
     } finally {

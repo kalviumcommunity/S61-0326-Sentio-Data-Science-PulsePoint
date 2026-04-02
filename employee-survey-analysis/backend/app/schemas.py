@@ -18,6 +18,7 @@ class UserCreate(UserBase):
 
 class UserRead(UserBase):
     id: int
+    full_name: str
     is_active: bool
 
 class UserLogin(BaseModel):
