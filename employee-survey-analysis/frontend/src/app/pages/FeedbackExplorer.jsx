@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useMemo } from "react";
 
 const container = {
   padding: "2rem",
@@ -86,8 +86,17 @@ const highlightText = (text) => {
 
   return result;
 };
-
 export default function FeedbackExplorer() {
+  const [search, setSearch] = useState("");
+
+  // Filter feedbacks by search text (case-insensitive, matches in text)
+  const filteredFeedbacks = useMemo(() => {
+    if (!search.trim()) return feedbacks;
+    return feedbacks.filter((f) =>
+      f.text.toLowerCase().includes(search.trim().toLowerCase())
+    );
+  }, [search]);
+
   return (
     <div style={container}>
       {/* Header */}
@@ -110,6 +119,8 @@ export default function FeedbackExplorer() {
       >
         <input
           placeholder="Search comments..."
+          value={search}
+          onChange={e => setSearch(e.target.value)}
           style={{
             flex: 1,
             padding: "10px",
@@ -128,45 +139,50 @@ export default function FeedbackExplorer() {
         </select>
 
         <span style={{ fontSize: 13, color: "#6b7280" }}>
-          12 results
+          {filteredFeedbacks.length} result{filteredFeedbacks.length !== 1 ? "s" : ""}
         </span>
       </div>
 
       {/* Feedback List */}
-      {feedbacks.map((f, i) => (
-        <div key={i} style={card}>
-          {/* Top Row */}
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              marginBottom: 6,
-              alignItems: "center",
-            }}
-          >
-            <div>
-              <span style={getSentimentStyle(f.sentiment)}>
-                {f.sentiment}
-              </span>
-              <span style={{ color: "#6b7280", fontSize: 13 }}>
-                {f.role}
-              </span>
-            </div>
-
-            <div style={{ fontSize: 13, color: "#6b7280" }}>
-              {f.date} &nbsp; <strong>{f.score}</strong>
-            </div>
-          </div>
-
-          {/* Text */}
-          <div
-            style={{ fontSize: 15, color: "#374151" }}
-            dangerouslySetInnerHTML={{
-              __html: highlightText(f.text),
-            }}
-          />
+      {filteredFeedbacks.length === 0 ? (
+        <div style={{ color: "#9ca3af", textAlign: "center", marginTop: 40 }}>
+          No comments found.
         </div>
-      ))}
+      ) : (
+        filteredFeedbacks.map((f, i) => (
+          <div key={i} style={card}>
+            {/* Top Row */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                marginBottom: 6,
+                alignItems: "center",
+              }}
+            >
+              <div>
+                <span style={getSentimentStyle(f.sentiment)}>
+                  {f.sentiment}
+                </span>
+                <span style={{ color: "#6b7280", fontSize: 13 }}>
+                  {f.role}
+                </span>
+              </div>
+
+              <div style={{ fontSize: 13, color: "#6b7280" }}>
+                {f.date} &nbsp; <strong>{f.score}</strong>
+              </div>
+            </div>
+
+            {/* Text */}
+            <div
+              style={{ fontSize: 15, color: "#374151" }}
+              dangerouslySetInnerHTML={{
+                __html: highlightText(f.text),
+              }}
+            />
+          </div>
+        ))
+      )}
     </div>
-  );
-}
+); }
