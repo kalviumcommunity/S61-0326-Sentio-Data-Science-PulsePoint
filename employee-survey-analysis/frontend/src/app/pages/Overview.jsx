@@ -111,6 +111,15 @@ export default function Overview() {
           <div style={{ fontSize: 28, fontWeight: "bold" }}>8</div>
           <div style={{ color: "green", fontSize: 13 }}>↑ 2 new</div>
         </div>
+
+        {/* New Stat Card: Average Employee Age */}
+        <div style={statCard}>
+          <div style={{ fontSize: 14, color: "#6b7280" }}>
+            Average Employee Age
+          </div>
+          <div style={{ fontSize: 28, fontWeight: "bold" }}>31.67</div>
+          <div style={{ color: "#64748b", fontSize: 13 }}>Sample Data</div>
+        </div>
       </div>
 
       {/* Charts */}
