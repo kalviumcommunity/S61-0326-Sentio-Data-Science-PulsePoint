@@ -32,5 +32,5 @@ export function loginUser(payload) {
 
 
 export function fetchDashboardOverview(token) {
-  return sendRequest("/dashboard/overview", { token });
+  return sendRequest("/v1/dashboard/overview", { token });
 }
