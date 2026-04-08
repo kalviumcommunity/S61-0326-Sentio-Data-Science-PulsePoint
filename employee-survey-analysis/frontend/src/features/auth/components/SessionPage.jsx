@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { fetchDashboardOverview } from "../api/authClient";
 import styles from "../styles/SessionPage.module.css";
@@ -71,142 +70,6 @@ function BellIcon() {
   );
 }
 
-function CardIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path
-        d="M6 18V6M11 18v-8M16 18V9M4 18.5h16"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
-function UsersIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path
-        d="M8.8 12.1a2.7 2.7 0 1 0 0-5.4 2.7 2.7 0 0 0 0 5.4Z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-      />
-      <path
-        d="M4.8 17.9v-.7a2.9 2.9 0 0 1 2.9-2.9H9.9a2.9 2.9 0 0 1 2.9 2.9v.7M16.2 11.2a2.3 2.3 0 1 0 0-4.6M18.9 18v-.5a2.5 2.5 0 0 0-2.5-2.5h-.4"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function TrendIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path
-        d="m5 16 4.6-4.4 3.1 3.2L19 8.8"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M14.8 8.8H19v4.2"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function AlertIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path
-        d="M12 4.8 20 18.5H4L12 4.8Z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M12 9.7v4.2M12 16.8h.01"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
-function getMetricIcon(icon) {
-  if (icon === "users") return <UsersIcon />;
-  if (icon === "trend") return <TrendIcon />;
-  return <CardIcon />;
-}
-
-function buildTrendPath(data) {
-  if (data.length <= 1) return "";
-
-  const width = 640;
-  const height = 220;
-  const minValue = 5;
-  const maxValue = 8;
-  const stepX = width / (data.length - 1);
-
-  return data
-    .map((point, index) => {
-      const x = index * stepX;
-      const normalized = (point.value - minValue) / (maxValue - minValue);
-      const y = height - normalized * height;
-      return `${index === 0 ? "M" : "L"} ${x.toFixed(2)} ${y.toFixed(2)}`;
-    })
-    .join(" ");
-}
-
-function buildAreaPath(data) {
-  if (data.length <= 1) return "";
-
-  const width = 640;
-  const height = 220;
-  const minValue = 5;
-  const maxValue = 8;
-  const stepX = width / (data.length - 1);
-  const topPath = data
-    .map((point, index) => {
-      const x = index * stepX;
-      const normalized = (point.value - minValue) / (maxValue - minValue);
-      const y = height - normalized * height;
-      return `${index === 0 ? "M" : "L"} ${x.toFixed(2)} ${y.toFixed(2)}`;
-    })
-    .join(" ");
-
-  return `${topPath} L ${width} ${height} L 0 ${height} Z`;
-}
-
-function buildDonutGradient(segments) {
-  let current = 0;
-  const stops = segments.map((segment) => {
-    const start = current;
-    current += segment.value;
-    return `${segment.color} ${start}% ${current}%`;
-  });
-
-  return `conic-gradient(${stops.join(", ")})`;
-}
-
-
 export default function SessionPage({ session, onLogout }) {
   const [dashboard, setDashboard] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -250,19 +113,6 @@ export default function SessionPage({ session, onLogout }) {
     .join("")
     .slice(0, 2)
     .toUpperCase();
-
-  const metricCards = dashboard?.metrics ?? [];
-  const sentimentData = dashboard?.sentiment_segments ?? [];
-  const monthlyTrend = dashboard?.trend_points ?? [];
-  const teamFocusAreas = dashboard?.focus_areas ?? [];
-  const feedbackThemes = dashboard?.feedback_themes ?? [];
-  const volumePoints = dashboard?.volume_points ?? [];
-  const maxVolumeValue = Math.max(...volumePoints.map((item) => item.value), 1);
-  const donutStyle = sentimentData.length
-    ? { background: buildDonutGradient(sentimentData) }
-    : undefined;
-  const linePath = buildTrendPath(monthlyTrend);
-  const areaPath = buildAreaPath(monthlyTrend);
 
   return (
     <main
@@ -342,10 +192,18 @@ export default function SessionPage({ session, onLogout }) {
         </header>
 
         <div className={styles.dashboardContent}>
-          {selectedPage === "Overview" && <Overview />}
-          {selectedPage === "Departments" && <Departments />}
-          {selectedPage === "Trends" && <Trends />}
-          {selectedPage === "Feedback Explorer" && <FeedbackExplorer />}
+          {selectedPage === "Overview" && (
+            <Overview dashboard={dashboard} isLoading={isLoading} error={error} />
+          )}
+          {selectedPage === "Departments" && (
+            <Departments dashboard={dashboard} isLoading={isLoading} error={error} />
+          )}
+          {selectedPage === "Trends" && (
+            <Trends dashboard={dashboard} isLoading={isLoading} error={error} />
+          )}
+          {selectedPage === "Feedback Explorer" && (
+            <FeedbackExplorer dashboard={dashboard} isLoading={isLoading} error={error} />
+          )}
         </div>
       </section>
     </main>

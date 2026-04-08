@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import { useMemo, useState } from "react";
 
 const container = {
   padding: "2rem",
@@ -15,99 +15,103 @@ const card = {
   marginBottom: "1rem",
 };
 
-const pill = (bg, color) => ({
-  background: bg,
-  color: color,
-  fontSize: 12,
-  fontWeight: 600,
-  padding: "4px 8px",
-  borderRadius: 999,
-  display: "inline-block",
-  marginRight: 8,
-});
-
-const highlight = {
-  background: "#fee2e2",
-  color: "#dc2626",
-  padding: "2px 4px",
-  borderRadius: 4,
-  fontWeight: 500,
+const tonePill = {
+  positive: {
+    background: "#dcfce7",
+    color: "#15803d",
+  },
+  alert: {
+    background: "#fef3c7",
+    color: "#b45309",
+  },
+  danger: {
+    background: "#fee2e2",
+    color: "#dc2626",
+  },
+  theme: {
+    background: "#dbeafe",
+    color: "#1d4ed8",
+  },
 };
 
-const feedbacks = [
-  {
-    sentiment: "NEGATIVE",
-    role: "Sales · Account Executive",
-    text: "The constant overtime and unrealistic targets are burning everyone out. Management doesn't listen to our concerns about workload.",
-    date: "2024-12-15",
-    score: "3/10",
-  },
-  {
-    sentiment: "POSITIVE",
-    role: "Engineering · Senior Developer",
-    text: "Great team culture and interesting projects. Would love more clarity on promotion criteria though.",
-    date: "2024-12-14",
-    score: "8/10",
-  },
-  {
-    sentiment: "NEGATIVE",
-    role: "Support · Customer Support Lead",
-    text: "We are severely understaffed. The burnout is real and management keeps adding more responsibilities without extra pay.",
-    date: "2024-12-13",
-    score: "2/10",
-  },
-  {
-    sentiment: "NEUTRAL",
-    role: "Marketing · Content Strategist",
-    text: "Work is fine but there's not much room for growth. Would appreciate more training opportunities.",
-    date: "2024-12-12",
-    score: "6/10",
-  },
-];
+function getPillStyle(kind) {
+  return {
+    ...(tonePill[kind] ?? tonePill.theme),
+    fontSize: 12,
+    fontWeight: 600,
+    padding: "4px 8px",
+    borderRadius: 999,
+    display: "inline-block",
+    marginRight: 8,
+    textTransform: "capitalize",
+  };
+}
 
-const getSentimentStyle = (type) => {
-  if (type === "NEGATIVE") return pill("#fee2e2", "#dc2626");
-  if (type === "POSITIVE") return pill("#dcfce7", "#16a34a");
-  return pill("#e0f2fe", "#2563eb");
-};
+function renderState(message) {
+  return (
+    <div style={container}>
+      <div style={card}>{message}</div>
+    </div>
+  );
+}
 
-// highlight keywords like screenshot
-const highlightText = (text) => {
-  const keywords = ["overtime", "burnout", "management", "understaffed"];
-  let result = text;
-
-  keywords.forEach((word) => {
-    const regex = new RegExp(`(${word})`, "gi");
-    result = result.replace(
-      regex,
-      `<span style="background:#fee2e2;color:#dc2626;padding:2px 4px;border-radius:4px;">$1</span>`
-    );
-  });
-
-  return result;
-};
-export default function FeedbackExplorer() {
+export default function FeedbackExplorer({ dashboard, isLoading, error }) {
   const [search, setSearch] = useState("");
+  const entries = useMemo(() => {
+    if (!dashboard) return [];
 
-  // Filter feedbacks by search text (case-insensitive, matches in text)
-  const filteredFeedbacks = useMemo(() => {
-    if (!search.trim()) return feedbacks;
-    return feedbacks.filter((f) =>
-      f.text.toLowerCase().includes(search.trim().toLowerCase())
+    return [
+      ...(dashboard.feedback_themes ?? []).map((theme) => ({
+        id: `theme-${theme.title}`,
+        label: theme.trend,
+        kind: "theme",
+        title: theme.title,
+        subtitle: "Extracted theme",
+        description: theme.description,
+      })),
+      ...(dashboard.focus_areas ?? []).map((area) => ({
+        id: `focus-${area.team}`,
+        label: area.tone,
+        kind: area.tone,
+        title: area.team,
+        subtitle: "Priority team",
+        description: area.note,
+      })),
+    ];
+  }, [dashboard]);
+  const filteredEntries = useMemo(() => {
+    if (!search.trim()) return entries;
+
+    const query = search.trim().toLowerCase();
+    return entries.filter((entry) =>
+      [entry.title, entry.subtitle, entry.description, entry.label]
+        .join(" ")
+        .toLowerCase()
+        .includes(query)
     );
-  }, [search]);
+  }, [entries, search]);
+
+  if (isLoading) {
+    return renderState("Loading feedback themes...");
+  }
+
+  if (error) {
+    return renderState(error);
+  }
+
+  if (!dashboard) {
+    return renderState("No feedback data is available yet.");
+  }
 
   return (
     <div style={container}>
-      {/* Header */}
       <div style={{ marginBottom: "1.5rem" }}>
         <h2 style={{ marginBottom: 4 }}>Feedback Explorer</h2>
         <p style={{ color: "#6b7280" }}>
-          Browse and search raw employee responses
+          Search the latest extracted themes and focus areas from the API
         </p>
       </div>
 
-      {/* Top Controls */}
       <div
         style={{
           ...card,
@@ -115,14 +119,15 @@ export default function FeedbackExplorer() {
           alignItems: "center",
           gap: "1rem",
           marginBottom: "1.5rem",
+          flexWrap: "wrap",
         }}
       >
         <input
-          placeholder="Search comments..."
+          placeholder="Search themes or teams..."
           value={search}
-          onChange={e => setSearch(e.target.value)}
+          onChange={(event) => setSearch(event.target.value)}
           style={{
-            flex: 1,
+            flex: "1 1 260px",
             padding: "10px",
             borderRadius: 8,
             border: "1px solid #e5e7eb",
@@ -130,59 +135,40 @@ export default function FeedbackExplorer() {
           }}
         />
 
-        <select style={{ padding: 8, borderRadius: 8 }}>
-          <option>All Sentiments</option>
-        </select>
-
-        <select style={{ padding: 8, borderRadius: 8 }}>
-          <option>All Departments</option>
-        </select>
-
         <span style={{ fontSize: 13, color: "#6b7280" }}>
-          {filteredFeedbacks.length} result{filteredFeedbacks.length !== 1 ? "s" : ""}
+          {filteredEntries.length} result{filteredEntries.length !== 1 ? "s" : ""}
         </span>
       </div>
 
-      {/* Feedback List */}
-      {filteredFeedbacks.length === 0 ? (
+      {filteredEntries.length === 0 ? (
         <div style={{ color: "#9ca3af", textAlign: "center", marginTop: 40 }}>
-          No comments found.
+          No themes matched your search.
         </div>
       ) : (
-        filteredFeedbacks.map((f, i) => (
-          <div key={i} style={card}>
-            {/* Top Row */}
+        filteredEntries.map((entry) => (
+          <div key={entry.id} style={card}>
             <div
               style={{
                 display: "flex",
                 justifyContent: "space-between",
                 marginBottom: 6,
                 alignItems: "center",
+                gap: "1rem",
+                flexWrap: "wrap",
               }}
             >
               <div>
-                <span style={getSentimentStyle(f.sentiment)}>
-                  {f.sentiment}
-                </span>
-                <span style={{ color: "#6b7280", fontSize: 13 }}>
-                  {f.role}
-                </span>
+                <span style={getPillStyle(entry.kind)}>{entry.label}</span>
+                <span style={{ color: "#6b7280", fontSize: 13 }}>{entry.subtitle}</span>
               </div>
 
-              <div style={{ fontSize: 13, color: "#6b7280" }}>
-                {f.date} &nbsp; <strong>{f.score}</strong>
-              </div>
+              <strong style={{ color: "#0f172a" }}>{entry.title}</strong>
             </div>
 
-            {/* Text */}
-            <div
-              style={{ fontSize: 15, color: "#374151" }}
-              dangerouslySetInnerHTML={{
-                __html: highlightText(f.text),
-              }}
-            />
+            <div style={{ fontSize: 15, color: "#374151" }}>{entry.description}</div>
           </div>
         ))
       )}
     </div>
-); }
+  );
+}

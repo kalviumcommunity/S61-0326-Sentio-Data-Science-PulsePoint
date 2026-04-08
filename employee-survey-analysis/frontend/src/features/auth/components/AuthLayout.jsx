@@ -149,7 +149,6 @@ function FeatureIcon({ name }) {
 export default function AuthLayout({
   heading,
   description,
-  googleSection,
   submitLabel,
   onSubmit,
   switchPrompt,
