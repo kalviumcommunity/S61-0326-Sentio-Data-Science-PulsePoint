@@ -1,8 +1,11 @@
 from contextlib import asynccontextmanager
+from pathlib import Path
 
+from alembic import command
+from alembic.config import Config
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy import inspect, select, text
+from sqlalchemy import inspect, select
 from sqlalchemy.orm import Session
 
 from app.config import get_settings
@@ -177,10 +180,21 @@ def seed_dashboard_data(db: Session):
 
 
 def run_startup_migrations():
-    Base.metadata.create_all(bind=engine)
+    project_root = Path(__file__).resolve().parents[1]
+    alembic_config = Config(str(project_root / "alembic.ini"))
+    alembic_config.set_main_option("script_location", str(project_root / "alembic"))
+    alembic_config.set_main_option("sqlalchemy.url", settings.database_url)
+    managed_tables = set(Base.metadata.tables)
 
+    with engine.begin() as connection:
+        alembic_config.attributes["connection"] = connection
+        existing_tables = set(inspect(connection).get_table_names())
+        has_existing_schema = bool(existing_tables.intersection(managed_tables))
 
-    # Remove Google auth migration logic (google_sub column/index)
+        if "alembic_version" not in existing_tables and has_existing_schema:
+            command.stamp(alembic_config, "head")
+        else:
+            command.upgrade(alembic_config, "head")
 
     with SessionLocal() as db:
         seed_dashboard_data(db)
