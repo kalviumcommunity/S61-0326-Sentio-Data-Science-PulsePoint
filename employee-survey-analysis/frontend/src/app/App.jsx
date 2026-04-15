@@ -4,6 +4,7 @@ import {
   PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, Legend
 } from "recharts";
+import { LoginPage, SignupPage } from "../features/auth";
 
 const DEPT_STATS = [
   {dept:"IT",count:1227,avg_satisfaction:0.618,avg_last_eval:0.717,avg_hours:202.2,avg_tenure:3.47,avg_projects:3.82,accidents:164,promotions:3},
@@ -607,66 +608,111 @@ function FeedbackExplorer({search,setSearch,deptFilter,setDeptFilter,salaryFilte
   );
 }
 
-export default function Dashboard() {
-  const [tab,setTab] = useState("overview");
-  const [search,setSearch] = useState("");
-  const [deptFilter,setDeptFilter] = useState("all");
-  const [salaryFilter,setSalaryFilter] = useState("all");
-  const [metric,setMetric] = useState("avg_satisfaction");
+
+
+export default function App() {
+  // All hooks at the top level (always called in the same order)
+  const [authMode, setAuthMode] = useState("login"); // "login" | "signup"
+  const [session, setSession] = useState(null); // { user, access_token }
+  const [notice, setNotice] = useState("");
+  const [tab, setTab] = useState("overview");
+  const [search, setSearch] = useState("");
+  const [deptFilter, setDeptFilter] = useState("all");
+  const [salaryFilter, setSalaryFilter] = useState("all");
+  const [metric, setMetric] = useState("avg_satisfaction");
 
   const tabs = [
-    {id:"overview",label:"Overview",icon:"◈"},
-    {id:"department",label:"Department",icon:"◉"},
-    {id:"trends",label:"Trends",icon:"◇"},
-    {id:"feedback",label:"Feedback Explorer",icon:"◎"}
+    { id: "overview", label: "Overview", icon: "◈" },
+    { id: "department", label: "Department", icon: "◉" },
+    { id: "trends", label: "Trends", icon: "◇" },
+    { id: "feedback", label: "Feedback Explorer", icon: "◎" }
   ];
 
-  return(
-    <div style={{fontFamily:"-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif",background:C.bg,minHeight:"100vh",padding:"24px 28px"}}>
+  function handleLogout() {
+    setSession(null);
+    setAuthMode("login");
+    setNotice("You have been signed out.");
+  }
+
+  // Conditional rendering only, not conditional hooks
+  if (!session) {
+    if (authMode === "signup") {
+      return (
+        <SignupPage
+          onSwitch={() => { setAuthMode("login"); setNotice(""); }}
+          onSignupSuccess={(response) => {
+            setSession({ user: response.user, access_token: response.access_token });
+            setNotice("");
+          }}
+        />
+      );
+    }
+    return (
+      <LoginPage
+        onSwitch={() => { setAuthMode("signup"); setNotice(""); }}
+        notice={notice}
+        onLoginSuccess={(response) => {
+          setSession({ user: response.user, access_token: response.access_token });
+          setNotice("");
+        }}
+      />
+    );
+  }
+
+  return (
+    <div style={{ fontFamily: "-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif", background: C.bg, minHeight: "100vh", padding: "24px 28px" }}>
       <style>{`* { box-sizing: border-box; margin: 0; padding: 0; } *::-webkit-scrollbar{width:6px;height:6px} *::-webkit-scrollbar-track{background:#F1F5F9} *::-webkit-scrollbar-thumb{background:#CBD5E1;border-radius:3px}`}</style>
 
       {/* Top Bar */}
-      <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:"22px",flexWrap:"wrap",gap:"12px"}}>
-        <div>
-          <h1 style={{fontSize:"20px",fontWeight:700,color:C.text,letterSpacing:"-0.3px"}}>Employee Attrition Analytics</h1>
-          <p style={{fontSize:"12px",color:C.muted,marginTop:"3px"}}>15,787 employees · Jan 2025 – Apr 2026</p>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "22px", flexWrap: "wrap", gap: "12px" }}>
+        {/* Left: Title and subtitle */}
+        <div style={{ display: "flex", alignItems: "center", gap: 32 }}>
+          <div>
+            <h1 style={{ fontSize: "20px", fontWeight: 700, color: C.text, letterSpacing: "-0.3px", marginBottom: 2 }}>Employee Attrition Analytics</h1>
+            <p style={{ fontSize: "12px", color: C.muted, marginTop: "3px" }}>15,787 employees · Jan 2025 – Apr 2026</p>
+          </div>
         </div>
-
-        {/* Global Search (visible on all tabs) */}
-        <div style={{position:"relative",width:"300px"}}>
-          <span style={{position:"absolute",left:"12px",top:"50%",transform:"translateY(-50%)",fontSize:"13px",color:C.muted,pointerEvents:"none"}}>⌕</span>
-          <input value={search} onChange={e=>setSearch(e.target.value)}
-            placeholder="Search records…"
-            style={{width:"100%",padding:"8px 12px 8px 34px",borderRadius:"8px",border:`1px solid ${C.border}`,
-              background:C.card,fontSize:"13px",outline:"none",color:C.text}}/>
-          {search&&<button onClick={()=>setSearch("")}
-            style={{position:"absolute",right:"10px",top:"50%",transform:"translateY(-50%)",background:"none",border:"none",cursor:"pointer",color:C.muted,fontSize:"14px"}}>×</button>}
+        {/* Center: Search bar */}
+        <div style={{ flex: 1, display: "flex", justifyContent: "center" }}>
+          <div style={{ position: "relative", width: 300 }}>
+            <span style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", fontSize: 13, color: C.muted, pointerEvents: "none" }}>⌕</span>
+            <input value={search} onChange={e => setSearch(e.target.value)}
+              placeholder="Search records…"
+              style={{ width: "100%", padding: "8px 12px 8px 34px", borderRadius: 8, border: `1px solid ${C.border}`,
+                background: C.card, fontSize: 13, outline: "none", color: C.text }} />
+            {search && <button onClick={() => setSearch("")}
+              style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: C.muted, fontSize: 14 }}>×</button>}
+          </div>
+        </div>
+        {/* Right: Sign Out button */}
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <button onClick={handleLogout} style={{ background: C.red, color: "#fff", border: "none", borderRadius: 6, padding: "8px 18px", fontWeight: 600, fontSize: 13, cursor: "pointer" }}>Sign Out</button>
         </div>
       </div>
 
       {/* Tab Bar */}
-      <div style={{display:"flex",gap:"2px",background:C.card,padding:"4px",borderRadius:"10px",
-        border:`1px solid ${C.border}`,marginBottom:"22px",width:"fit-content"}}>
-        {tabs.map(t=>(
-          <button key={t.id} onClick={()=>setTab(t.id)}
+      <div style={{ display: "flex", gap: "2px", background: C.card, padding: "4px", borderRadius: "10px",
+        border: `1px solid ${C.border}`, marginBottom: "22px", width: "fit-content" }}>
+        {tabs.map(t => (
+          <button key={t.id} onClick={() => setTab(t.id)}
             style={{
-              display:"flex",alignItems:"center",gap:"6px",
-              padding:"8px 18px",borderRadius:"8px",border:"none",cursor:"pointer",
-              fontSize:"13px",fontWeight:tab===t.id?600:400,transition:"all 0.15s",
-              background:tab===t.id?C.blue:"transparent",
-              color:tab===t.id?"#fff":C.muted
+              display: "flex", alignItems: "center", gap: "6px",
+              padding: "8px 18px", borderRadius: "8px", border: "none", cursor: "pointer",
+              fontSize: "13px", fontWeight: tab === t.id ? 600 : 400, transition: "all 0.15s",
+              background: tab === t.id ? C.blue : "transparent",
+              color: tab === t.id ? "#fff" : C.muted
             }}>
-            <span style={{fontSize:"10px"}}>{t.icon}</span>
+            <span style={{ fontSize: "10px" }}>{t.icon}</span>
             {t.label}
           </button>
         ))}
       </div>
 
       {/* Dashboard Content */}
-      {tab==="overview" && <Overview/>}
-      {tab==="department" && <Department metric={metric} setMetric={setMetric}/>}
-      {tab==="trends" && <Trends/>}
-      {tab==="feedback" && (
+      {tab === "overview" && <Overview />}
+      {tab === "department" && <Department metric={metric} setMetric={setMetric} />}
+      {tab === "trends" && <Trends />}
+      {tab === "feedback" && (
         <FeedbackExplorer
           search={search} setSearch={setSearch}
           deptFilter={deptFilter} setDeptFilter={setDeptFilter}
